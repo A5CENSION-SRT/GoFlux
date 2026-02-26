@@ -1,0 +1,16 @@
+# binaries
+bin/
+*.exe
+
+.env
+
+# Go
+*.test
+*.out
+
+# air live reload
+tmp/
+
+# OS
+.DS_Store
+EOF

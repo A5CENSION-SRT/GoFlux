@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./migrations/init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,19 +22,18 @@ services:
       - goflux_network
 
   pgbouncer:
-    image: pgbouncer/pgbouncer:latest
+    image: edoburu/pgbouncer:latest
     container_name: goflux_pgbouncer
     restart: unless-stopped
     environment:
-      DATABASES_HOST: ${POSTGRES_HOST}
-      DATABASES_PORT: ${POSTGRES_PORT}
-      DATABASES_DBNAME: ${POSTGRES_DB}
-      PGBOUNCER_LISTEN_PORT: ${PGBOUNCER_LISTEN_PORT}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 1000
+      DEFAULT_POOL_SIZE: 25
+      LISTEN_PORT: ${PGBOUNCER_LISTEN_PORT}
+      AUTH_TYPE: scram-sha-256
     ports:
       - "${PGBOUNCER_LISTEN_PORT}:${PGBOUNCER_LISTEN_PORT}"
-    volumes:
-      - ./docker/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini:ro
-      - ./docker/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt:ro
     depends_on:
       postgres:
         condition: service_healthy

@@ -78,7 +78,7 @@ CREATE TABLE transactions (
     currency        CHAR(3) NOT NULL DEFAULT 'INR',
     direction       transaction_direction NOT NULL,
     status          transaction_status NOT NULL DEFAULT 'pending',
-    reference       VARCHAR(100) UNIQUE,
+    reference       VARCHAR(100),
     description     VARCHAR(500),
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     settled_at      TIMESTAMPTZ,

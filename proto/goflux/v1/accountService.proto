@@ -1,3 +1,88 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message Account {
+    string id            = 1;
+    string customer_id   = 2;
+    string account_type  = 3;
+    string currency      = 4;
+    string status        = 5;
+    string created_at    = 6;
+    string updated_at    = 7;
+}
+
+message Balance {
+    string account_id        = 1;
+    string available_balance = 2;
+    string pending_balance   = 3;
+    string updated_at        = 4;
+}
+
+message CreateAccountRequest {
+    string customer_id   = 1;
+    string account_type  = 2;
+    string currency      = 3;
+}
+
+message CreateAccountResponse {
+    Account account = 1;
+}
+
+message GetAccountRequest {
+    string account_id = 1;
+}
+
+message GetAccountResponse {
+    Account account = 1;
+}
+
+message GetAccountBalanceRequest {
+    string account_id = 1;
+}
+
+message GetAccountBalanceResponse {
+    Balance balance = 1;
+}
+
+message ListCustomerAccountsRequest {
+    string          customer_id = 1;
+    optional string status      = 2;
+    int32           page        = 3;
+    int32           page_size   = 4;
+}
+
+message ListCustomerAccountsResponse {
+    repeated Account accounts  = 1;
+    int32            total     = 2;
+    int32            page      = 3;
+    int32            page_size = 4;
+}
+
+message UpdateAccountStatusRequest {
+    string account_id = 1;
+    string status     = 2;
+}
+
+message UpdateAccountStatusResponse {
+    Account account = 1;
+}
+
+message CloseAccountRequest {
+    string account_id = 1;
+    string reason     = 2;
+}
+
+message CloseAccountResponse {
+    bool   success = 1;
+    string message = 2;
+}
+
+service AccountService {
+    rpc CreateAccount        (CreateAccountRequest)        returns (CreateAccountResponse);
+    rpc GetAccount           (GetAccountRequest)           returns (GetAccountResponse);
+    rpc GetAccountBalance    (GetAccountBalanceRequest)    returns (GetAccountBalanceResponse);
+    rpc ListCustomerAccounts (ListCustomerAccountsRequest) returns (ListCustomerAccountsResponse);
+    rpc UpdateAccountStatus  (UpdateAccountStatusRequest)  returns (UpdateAccountStatusResponse);
+    rpc CloseAccount         (CloseAccountRequest)         returns (CloseAccountResponse);
+}

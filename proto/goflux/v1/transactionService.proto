@@ -1,3 +1,75 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message Transaction {
+    string id          = 1;
+    string account_id  = 2;
+    string merchant_id = 3;
+    string category_id = 4;
+    string amount      = 5;
+    string currency    = 6;
+    string direction   = 7;
+    string status      = 8;
+    string reference   = 9;
+    string description = 10;
+    string created_at  = 11;
+    string settled_at  = 12;
+}
+
+message CreateTransactionRequest {
+    string account_id  = 1;
+    string merchant_id = 2;
+    string category_id = 3;
+    string amount      = 4;
+    string currency    = 5;
+    string direction   = 6;
+    string description = 7;
+    string reference   = 8;
+}
+
+message CreateTransactionResponse {
+    Transaction transaction = 1;
+}
+
+message GetTransactionRequest {
+    string transaction_id = 1;
+}
+
+message GetTransactionResponse {
+    Transaction transaction = 1;
+}
+
+message ListAccountTransactionsRequest {
+    string          account_id  = 1;
+    optional string direction   = 2;
+    optional string status      = 3;
+    optional string date_from   = 4;
+    optional string date_to     = 5;
+    int32           page        = 6;
+    int32           page_size   = 7;
+}
+
+message ListAccountTransactionsResponse {
+    repeated Transaction transactions = 1;
+    int32                total        = 2;
+    int32                page         = 3;
+    int32                page_size    = 4;
+}
+
+message ReverseTransactionRequest {
+    string transaction_id = 1;
+    string reason         = 2;
+}
+
+message ReverseTransactionResponse {
+    Transaction original_transaction  = 1;
+    Transaction reversal_transaction  = 2;
+}
+
+service TransactionService {
+    rpc CreateTransaction        (CreateTransactionRequest)        returns (CreateTransactionResponse);
+    rpc GetTransaction           (GetTransactionRequest)           returns (GetTransactionResponse);
+    rpc ListAccountTransactions  (ListAccountTransactionsRequest)  returns (ListAccountTransactionsResponse);
+    rpc ReverseTransaction       (ReverseTransactionRequest)       returns (ReverseTransactionResponse);
+}

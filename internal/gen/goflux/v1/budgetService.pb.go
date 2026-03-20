@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,904 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Budget struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	AccountId      string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	CategoryId     string                 `protobuf:"bytes,3,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Amount         string                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Period         string                 `protobuf:"bytes,5,opt,name=period,proto3" json:"period,omitempty"`
+	StartDate      string                 `protobuf:"bytes,6,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate        string                 `protobuf:"bytes,7,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	AlertThreshold string                 `protobuf:"bytes,8,opt,name=alert_threshold,json=alertThreshold,proto3" json:"alert_threshold,omitempty"`
+	CreatedAt      string                 `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt      string                 `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *Budget) Reset() {
+	*x = Budget{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Budget) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Budget) ProtoMessage() {}
+
+func (x *Budget) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Budget.ProtoReflect.Descriptor instead.
+func (*Budget) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Budget) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Budget) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *Budget) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *Budget) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *Budget) GetPeriod() string {
+	if x != nil {
+		return x.Period
+	}
+	return ""
+}
+
+func (x *Budget) GetStartDate() string {
+	if x != nil {
+		return x.StartDate
+	}
+	return ""
+}
+
+func (x *Budget) GetEndDate() string {
+	if x != nil {
+		return x.EndDate
+	}
+	return ""
+}
+
+func (x *Budget) GetAlertThreshold() string {
+	if x != nil {
+		return x.AlertThreshold
+	}
+	return ""
+}
+
+func (x *Budget) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Budget) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type BudgetStatus struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Budget         *Budget                `protobuf:"bytes,1,opt,name=budget,proto3" json:"budget,omitempty"`
+	SpentAmount    string                 `protobuf:"bytes,2,opt,name=spent_amount,json=spentAmount,proto3" json:"spent_amount,omitempty"`
+	Remaining      string                 `protobuf:"bytes,3,opt,name=remaining,proto3" json:"remaining,omitempty"`
+	PercentageUsed string                 `protobuf:"bytes,4,opt,name=percentage_used,json=percentageUsed,proto3" json:"percentage_used,omitempty"`
+	AlertTriggered bool                   `protobuf:"varint,5,opt,name=alert_triggered,json=alertTriggered,proto3" json:"alert_triggered,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *BudgetStatus) Reset() {
+	*x = BudgetStatus{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BudgetStatus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BudgetStatus) ProtoMessage() {}
+
+func (x *BudgetStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BudgetStatus.ProtoReflect.Descriptor instead.
+func (*BudgetStatus) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *BudgetStatus) GetBudget() *Budget {
+	if x != nil {
+		return x.Budget
+	}
+	return nil
+}
+
+func (x *BudgetStatus) GetSpentAmount() string {
+	if x != nil {
+		return x.SpentAmount
+	}
+	return ""
+}
+
+func (x *BudgetStatus) GetRemaining() string {
+	if x != nil {
+		return x.Remaining
+	}
+	return ""
+}
+
+func (x *BudgetStatus) GetPercentageUsed() string {
+	if x != nil {
+		return x.PercentageUsed
+	}
+	return ""
+}
+
+func (x *BudgetStatus) GetAlertTriggered() bool {
+	if x != nil {
+		return x.AlertTriggered
+	}
+	return false
+}
+
+type CreateBudgetRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	AccountId      string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	CategoryId     string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Amount         string                 `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Period         string                 `protobuf:"bytes,4,opt,name=period,proto3" json:"period,omitempty"`
+	StartDate      string                 `protobuf:"bytes,5,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate        string                 `protobuf:"bytes,6,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	AlertThreshold string                 `protobuf:"bytes,7,opt,name=alert_threshold,json=alertThreshold,proto3" json:"alert_threshold,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateBudgetRequest) Reset() {
+	*x = CreateBudgetRequest{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBudgetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBudgetRequest) ProtoMessage() {}
+
+func (x *CreateBudgetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBudgetRequest.ProtoReflect.Descriptor instead.
+func (*CreateBudgetRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateBudgetRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetPeriod() string {
+	if x != nil {
+		return x.Period
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetStartDate() string {
+	if x != nil {
+		return x.StartDate
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetEndDate() string {
+	if x != nil {
+		return x.EndDate
+	}
+	return ""
+}
+
+func (x *CreateBudgetRequest) GetAlertThreshold() string {
+	if x != nil {
+		return x.AlertThreshold
+	}
+	return ""
+}
+
+type CreateBudgetResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Budget        *Budget                `protobuf:"bytes,1,opt,name=budget,proto3" json:"budget,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateBudgetResponse) Reset() {
+	*x = CreateBudgetResponse{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBudgetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBudgetResponse) ProtoMessage() {}
+
+func (x *CreateBudgetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBudgetResponse.ProtoReflect.Descriptor instead.
+func (*CreateBudgetResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateBudgetResponse) GetBudget() *Budget {
+	if x != nil {
+		return x.Budget
+	}
+	return nil
+}
+
+type GetBudgetStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BudgetId      string                 `protobuf:"bytes,1,opt,name=budget_id,json=budgetId,proto3" json:"budget_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetStatusRequest) Reset() {
+	*x = GetBudgetStatusRequest{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetStatusRequest) ProtoMessage() {}
+
+func (x *GetBudgetStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetBudgetStatusRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetBudgetStatusRequest) GetBudgetId() string {
+	if x != nil {
+		return x.BudgetId
+	}
+	return ""
+}
+
+type GetBudgetStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BudgetStatus  *BudgetStatus          `protobuf:"bytes,1,opt,name=budget_status,json=budgetStatus,proto3" json:"budget_status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetStatusResponse) Reset() {
+	*x = GetBudgetStatusResponse{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetStatusResponse) ProtoMessage() {}
+
+func (x *GetBudgetStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetStatusResponse.ProtoReflect.Descriptor instead.
+func (*GetBudgetStatusResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetBudgetStatusResponse) GetBudgetStatus() *BudgetStatus {
+	if x != nil {
+		return x.BudgetStatus
+	}
+	return nil
+}
+
+type ListBudgetsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Period        *string                `protobuf:"bytes,2,opt,name=period,proto3,oneof" json:"period,omitempty"`
+	CategoryId    *string                `protobuf:"bytes,3,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	Page          int32                  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBudgetsRequest) Reset() {
+	*x = ListBudgetsRequest{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBudgetsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBudgetsRequest) ProtoMessage() {}
+
+func (x *ListBudgetsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBudgetsRequest.ProtoReflect.Descriptor instead.
+func (*ListBudgetsRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListBudgetsRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *ListBudgetsRequest) GetPeriod() string {
+	if x != nil && x.Period != nil {
+		return *x.Period
+	}
+	return ""
+}
+
+func (x *ListBudgetsRequest) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *ListBudgetsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListBudgetsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListBudgetsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Budgets       []*Budget              `protobuf:"bytes,1,rep,name=budgets,proto3" json:"budgets,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBudgetsResponse) Reset() {
+	*x = ListBudgetsResponse{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBudgetsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBudgetsResponse) ProtoMessage() {}
+
+func (x *ListBudgetsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBudgetsResponse.ProtoReflect.Descriptor instead.
+func (*ListBudgetsResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListBudgetsResponse) GetBudgets() []*Budget {
+	if x != nil {
+		return x.Budgets
+	}
+	return nil
+}
+
+func (x *ListBudgetsResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListBudgetsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListBudgetsResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type UpdateBudgetRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	BudgetId       string                 `protobuf:"bytes,1,opt,name=budget_id,json=budgetId,proto3" json:"budget_id,omitempty"`
+	Amount         *string                `protobuf:"bytes,2,opt,name=amount,proto3,oneof" json:"amount,omitempty"`
+	AlertThreshold *string                `protobuf:"bytes,3,opt,name=alert_threshold,json=alertThreshold,proto3,oneof" json:"alert_threshold,omitempty"`
+	EndDate        *string                `protobuf:"bytes,4,opt,name=end_date,json=endDate,proto3,oneof" json:"end_date,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateBudgetRequest) Reset() {
+	*x = UpdateBudgetRequest{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBudgetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBudgetRequest) ProtoMessage() {}
+
+func (x *UpdateBudgetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBudgetRequest.ProtoReflect.Descriptor instead.
+func (*UpdateBudgetRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateBudgetRequest) GetBudgetId() string {
+	if x != nil {
+		return x.BudgetId
+	}
+	return ""
+}
+
+func (x *UpdateBudgetRequest) GetAmount() string {
+	if x != nil && x.Amount != nil {
+		return *x.Amount
+	}
+	return ""
+}
+
+func (x *UpdateBudgetRequest) GetAlertThreshold() string {
+	if x != nil && x.AlertThreshold != nil {
+		return *x.AlertThreshold
+	}
+	return ""
+}
+
+func (x *UpdateBudgetRequest) GetEndDate() string {
+	if x != nil && x.EndDate != nil {
+		return *x.EndDate
+	}
+	return ""
+}
+
+type UpdateBudgetResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Budget        *Budget                `protobuf:"bytes,1,opt,name=budget,proto3" json:"budget,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateBudgetResponse) Reset() {
+	*x = UpdateBudgetResponse{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBudgetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBudgetResponse) ProtoMessage() {}
+
+func (x *UpdateBudgetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBudgetResponse.ProtoReflect.Descriptor instead.
+func (*UpdateBudgetResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateBudgetResponse) GetBudget() *Budget {
+	if x != nil {
+		return x.Budget
+	}
+	return nil
+}
+
+type DeleteBudgetRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BudgetId      string                 `protobuf:"bytes,1,opt,name=budget_id,json=budgetId,proto3" json:"budget_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteBudgetRequest) Reset() {
+	*x = DeleteBudgetRequest{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteBudgetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteBudgetRequest) ProtoMessage() {}
+
+func (x *DeleteBudgetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteBudgetRequest.ProtoReflect.Descriptor instead.
+func (*DeleteBudgetRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteBudgetRequest) GetBudgetId() string {
+	if x != nil {
+		return x.BudgetId
+	}
+	return ""
+}
+
+type DeleteBudgetResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteBudgetResponse) Reset() {
+	*x = DeleteBudgetResponse{}
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteBudgetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteBudgetResponse) ProtoMessage() {}
+
+func (x *DeleteBudgetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_budgetService_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteBudgetResponse.ProtoReflect.Descriptor instead.
+func (*DeleteBudgetResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_budgetService_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteBudgetResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *DeleteBudgetResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_goflux_v1_budgetService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_budgetService_proto_rawDesc = "" +
 	"\n" +
-	"\x1dgoflux/v1/budgetService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"\x1dgoflux/v1/budgetService.proto\x12\tgoflux.v1\"\xa9\x02\n" +
+	"\x06Budget\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
+	"\vcategory_id\x18\x03 \x01(\tR\n" +
+	"categoryId\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\tR\x06amount\x12\x16\n" +
+	"\x06period\x18\x05 \x01(\tR\x06period\x12\x1d\n" +
+	"\n" +
+	"start_date\x18\x06 \x01(\tR\tstartDate\x12\x19\n" +
+	"\bend_date\x18\a \x01(\tR\aendDate\x12'\n" +
+	"\x0falert_threshold\x18\b \x01(\tR\x0ealertThreshold\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\t \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\n" +
+	" \x01(\tR\tupdatedAt\"\xcc\x01\n" +
+	"\fBudgetStatus\x12)\n" +
+	"\x06budget\x18\x01 \x01(\v2\x11.goflux.v1.BudgetR\x06budget\x12!\n" +
+	"\fspent_amount\x18\x02 \x01(\tR\vspentAmount\x12\x1c\n" +
+	"\tremaining\x18\x03 \x01(\tR\tremaining\x12'\n" +
+	"\x0fpercentage_used\x18\x04 \x01(\tR\x0epercentageUsed\x12'\n" +
+	"\x0falert_triggered\x18\x05 \x01(\bR\x0ealertTriggered\"\xe8\x01\n" +
+	"\x13CreateBudgetRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1f\n" +
+	"\vcategory_id\x18\x02 \x01(\tR\n" +
+	"categoryId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\tR\x06amount\x12\x16\n" +
+	"\x06period\x18\x04 \x01(\tR\x06period\x12\x1d\n" +
+	"\n" +
+	"start_date\x18\x05 \x01(\tR\tstartDate\x12\x19\n" +
+	"\bend_date\x18\x06 \x01(\tR\aendDate\x12'\n" +
+	"\x0falert_threshold\x18\a \x01(\tR\x0ealertThreshold\"A\n" +
+	"\x14CreateBudgetResponse\x12)\n" +
+	"\x06budget\x18\x01 \x01(\v2\x11.goflux.v1.BudgetR\x06budget\"5\n" +
+	"\x16GetBudgetStatusRequest\x12\x1b\n" +
+	"\tbudget_id\x18\x01 \x01(\tR\bbudgetId\"W\n" +
+	"\x17GetBudgetStatusResponse\x12<\n" +
+	"\rbudget_status\x18\x01 \x01(\v2\x17.goflux.v1.BudgetStatusR\fbudgetStatus\"\xc2\x01\n" +
+	"\x12ListBudgetsRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1b\n" +
+	"\x06period\x18\x02 \x01(\tH\x00R\x06period\x88\x01\x01\x12$\n" +
+	"\vcategory_id\x18\x03 \x01(\tH\x01R\n" +
+	"categoryId\x88\x01\x01\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x05 \x01(\x05R\bpageSizeB\t\n" +
+	"\a_periodB\x0e\n" +
+	"\f_category_id\"\x89\x01\n" +
+	"\x13ListBudgetsResponse\x12+\n" +
+	"\abudgets\x18\x01 \x03(\v2\x11.goflux.v1.BudgetR\abudgets\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"\xc9\x01\n" +
+	"\x13UpdateBudgetRequest\x12\x1b\n" +
+	"\tbudget_id\x18\x01 \x01(\tR\bbudgetId\x12\x1b\n" +
+	"\x06amount\x18\x02 \x01(\tH\x00R\x06amount\x88\x01\x01\x12,\n" +
+	"\x0falert_threshold\x18\x03 \x01(\tH\x01R\x0ealertThreshold\x88\x01\x01\x12\x1e\n" +
+	"\bend_date\x18\x04 \x01(\tH\x02R\aendDate\x88\x01\x01B\t\n" +
+	"\a_amountB\x12\n" +
+	"\x10_alert_thresholdB\v\n" +
+	"\t_end_date\"A\n" +
+	"\x14UpdateBudgetResponse\x12)\n" +
+	"\x06budget\x18\x01 \x01(\v2\x11.goflux.v1.BudgetR\x06budget\"2\n" +
+	"\x13DeleteBudgetRequest\x12\x1b\n" +
+	"\tbudget_id\x18\x01 \x01(\tR\bbudgetId\"J\n" +
+	"\x14DeleteBudgetResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xaa\x03\n" +
+	"\rBudgetService\x12O\n" +
+	"\fCreateBudget\x12\x1e.goflux.v1.CreateBudgetRequest\x1a\x1f.goflux.v1.CreateBudgetResponse\x12X\n" +
+	"\x0fGetBudgetStatus\x12!.goflux.v1.GetBudgetStatusRequest\x1a\".goflux.v1.GetBudgetStatusResponse\x12L\n" +
+	"\vListBudgets\x12\x1d.goflux.v1.ListBudgetsRequest\x1a\x1e.goflux.v1.ListBudgetsResponse\x12O\n" +
+	"\fUpdateBudget\x12\x1e.goflux.v1.UpdateBudgetRequest\x1a\x1f.goflux.v1.UpdateBudgetResponse\x12O\n" +
+	"\fDeleteBudget\x12\x1e.goflux.v1.DeleteBudgetRequest\x1a\x1f.goflux.v1.DeleteBudgetResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_budgetService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_budgetService_proto_rawDescOnce sync.Once
+	file_goflux_v1_budgetService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_budgetService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_budgetService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_budgetService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_budgetService_proto_rawDesc), len(file_goflux_v1_budgetService_proto_rawDesc)))
+	})
+	return file_goflux_v1_budgetService_proto_rawDescData
+}
+
+var file_goflux_v1_budgetService_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_goflux_v1_budgetService_proto_goTypes = []any{
+	(*Budget)(nil),                  // 0: goflux.v1.Budget
+	(*BudgetStatus)(nil),            // 1: goflux.v1.BudgetStatus
+	(*CreateBudgetRequest)(nil),     // 2: goflux.v1.CreateBudgetRequest
+	(*CreateBudgetResponse)(nil),    // 3: goflux.v1.CreateBudgetResponse
+	(*GetBudgetStatusRequest)(nil),  // 4: goflux.v1.GetBudgetStatusRequest
+	(*GetBudgetStatusResponse)(nil), // 5: goflux.v1.GetBudgetStatusResponse
+	(*ListBudgetsRequest)(nil),      // 6: goflux.v1.ListBudgetsRequest
+	(*ListBudgetsResponse)(nil),     // 7: goflux.v1.ListBudgetsResponse
+	(*UpdateBudgetRequest)(nil),     // 8: goflux.v1.UpdateBudgetRequest
+	(*UpdateBudgetResponse)(nil),    // 9: goflux.v1.UpdateBudgetResponse
+	(*DeleteBudgetRequest)(nil),     // 10: goflux.v1.DeleteBudgetRequest
+	(*DeleteBudgetResponse)(nil),    // 11: goflux.v1.DeleteBudgetResponse
+}
 var file_goflux_v1_budgetService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: goflux.v1.BudgetStatus.budget:type_name -> goflux.v1.Budget
+	0,  // 1: goflux.v1.CreateBudgetResponse.budget:type_name -> goflux.v1.Budget
+	1,  // 2: goflux.v1.GetBudgetStatusResponse.budget_status:type_name -> goflux.v1.BudgetStatus
+	0,  // 3: goflux.v1.ListBudgetsResponse.budgets:type_name -> goflux.v1.Budget
+	0,  // 4: goflux.v1.UpdateBudgetResponse.budget:type_name -> goflux.v1.Budget
+	2,  // 5: goflux.v1.BudgetService.CreateBudget:input_type -> goflux.v1.CreateBudgetRequest
+	4,  // 6: goflux.v1.BudgetService.GetBudgetStatus:input_type -> goflux.v1.GetBudgetStatusRequest
+	6,  // 7: goflux.v1.BudgetService.ListBudgets:input_type -> goflux.v1.ListBudgetsRequest
+	8,  // 8: goflux.v1.BudgetService.UpdateBudget:input_type -> goflux.v1.UpdateBudgetRequest
+	10, // 9: goflux.v1.BudgetService.DeleteBudget:input_type -> goflux.v1.DeleteBudgetRequest
+	3,  // 10: goflux.v1.BudgetService.CreateBudget:output_type -> goflux.v1.CreateBudgetResponse
+	5,  // 11: goflux.v1.BudgetService.GetBudgetStatus:output_type -> goflux.v1.GetBudgetStatusResponse
+	7,  // 12: goflux.v1.BudgetService.ListBudgets:output_type -> goflux.v1.ListBudgetsResponse
+	9,  // 13: goflux.v1.BudgetService.UpdateBudget:output_type -> goflux.v1.UpdateBudgetResponse
+	11, // 14: goflux.v1.BudgetService.DeleteBudget:output_type -> goflux.v1.DeleteBudgetResponse
+	10, // [10:15] is the sub-list for method output_type
+	5,  // [5:10] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_budgetService_proto_init() }
@@ -40,18 +926,21 @@ func file_goflux_v1_budgetService_proto_init() {
 	if File_goflux_v1_budgetService_proto != nil {
 		return
 	}
+	file_goflux_v1_budgetService_proto_msgTypes[6].OneofWrappers = []any{}
+	file_goflux_v1_budgetService_proto_msgTypes[8].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_budgetService_proto_rawDesc), len(file_goflux_v1_budgetService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   12,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_budgetService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_budgetService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_budgetService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_budgetService_proto = out.File
 	file_goflux_v1_budgetService_proto_goTypes = nil

@@ -1,3 +1,75 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message SettlementBatch {
+    string id             = 1;
+    string batch_date     = 2;
+    string status         = 3;
+    string total_amount   = 4;
+    int32  transfer_count = 5;
+    string created_at     = 6;
+    string settled_at     = 7;
+}
+
+message SettlementBatchItem {
+    string id          = 1;
+    string batch_id    = 2;
+    string transfer_id = 3;
+    string amount      = 4;
+    string status      = 5;
+    string created_at  = 6;
+}
+
+message GetSettlementBatchRequest {
+    string batch_date = 1;
+}
+
+message GetSettlementBatchResponse {
+    SettlementBatch batch = 1;
+}
+
+message ListSettlementBatchesRequest {
+    optional string status      = 1;
+    optional string date_from   = 2;
+    optional string date_to     = 3;
+    int32           page        = 4;
+    int32           page_size   = 5;
+}
+
+message ListSettlementBatchesResponse {
+    repeated SettlementBatch batches  = 1;
+    int32                    total    = 2;
+    int32                    page     = 3;
+    int32                    page_size = 4;
+}
+
+message GetBatchItemsRequest {
+    string batch_id   = 1;
+    int32  page       = 2;
+    int32  page_size  = 3;
+}
+
+message GetBatchItemsResponse {
+    repeated SettlementBatchItem items    = 1;
+    int32                        total    = 2;
+    int32                        page     = 3;
+    int32                        page_size = 4;
+}
+
+message ProcessBatchRequest {
+    string batch_date = 1;
+}
+
+message ProcessBatchResponse {
+    SettlementBatch batch          = 1;
+    int32           processed_count = 2;
+    int32           failed_count    = 3;
+}
+
+service SettlementService {
+    rpc GetSettlementBatch    (GetSettlementBatchRequest)    returns (GetSettlementBatchResponse);
+    rpc ListSettlementBatches (ListSettlementBatchesRequest) returns (ListSettlementBatchesResponse);
+    rpc GetBatchItems         (GetBatchItemsRequest)         returns (GetBatchItemsResponse);
+    rpc ProcessBatch          (ProcessBatchRequest)          returns (ProcessBatchResponse);
+}

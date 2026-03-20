@@ -1,3 +1,79 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message Merchant {
+    string id           = 1;
+    string name         = 2;
+    string category_id  = 3;
+    string country_code = 4;
+    string mcc_code     = 5;
+    string created_at   = 6;
+}
+
+message GetMerchantRequest {
+    string merchant_id = 1;
+}
+
+message GetMerchantResponse {
+    Merchant merchant = 1;
+}
+
+message ListMerchantsRequest {
+    optional string category_id  = 1;
+    optional string country_code = 2;
+    int32           page         = 3;
+    int32           page_size    = 4;
+}
+
+message ListMerchantsResponse {
+    repeated Merchant merchants = 1;
+    int32             total     = 2;
+    int32             page      = 3;
+    int32             page_size = 4;
+}
+
+message SearchMerchantsRequest {
+    string          query        = 1;
+    optional string mcc_code     = 2;
+    int32           page         = 3;
+    int32           page_size    = 4;
+}
+
+message SearchMerchantsResponse {
+    repeated Merchant merchants = 1;
+    int32             total     = 2;
+    int32             page      = 3;
+    int32             page_size = 4;
+}
+
+message CreateMerchantRequest {
+    string name         = 1;
+    string category_id  = 2;
+    string country_code = 3;
+    string mcc_code     = 4;
+}
+
+message CreateMerchantResponse {
+    Merchant merchant = 1;
+}
+
+message UpdateMerchantRequest {
+    string          merchant_id  = 1;
+    optional string name         = 2;
+    optional string category_id  = 3;
+    optional string country_code = 4;
+    optional string mcc_code     = 5;
+}
+
+message UpdateMerchantResponse {
+    Merchant merchant = 1;
+}
+
+service MerchantService {
+    rpc GetMerchant     (GetMerchantRequest)     returns (GetMerchantResponse);
+    rpc ListMerchants   (ListMerchantsRequest)   returns (ListMerchantsResponse);
+    rpc SearchMerchants (SearchMerchantsRequest) returns (SearchMerchantsResponse);
+    rpc CreateMerchant  (CreateMerchantRequest)  returns (CreateMerchantResponse);
+    rpc UpdateMerchant  (UpdateMerchantRequest)  returns (UpdateMerchantResponse);
+}

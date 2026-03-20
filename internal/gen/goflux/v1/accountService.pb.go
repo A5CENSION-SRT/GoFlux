@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,908 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Account struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CustomerId    string                 `protobuf:"bytes,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	AccountType   string                 `protobuf:"bytes,3,opt,name=account_type,json=accountType,proto3" json:"account_type,omitempty"`
+	Currency      string                 `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Account) Reset() {
+	*x = Account{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Account) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Account) ProtoMessage() {}
+
+func (x *Account) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Account.ProtoReflect.Descriptor instead.
+func (*Account) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Account) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Account) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *Account) GetAccountType() string {
+	if x != nil {
+		return x.AccountType
+	}
+	return ""
+}
+
+func (x *Account) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+func (x *Account) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Account) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Account) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type Balance struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	AccountId        string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	AvailableBalance string                 `protobuf:"bytes,2,opt,name=available_balance,json=availableBalance,proto3" json:"available_balance,omitempty"`
+	PendingBalance   string                 `protobuf:"bytes,3,opt,name=pending_balance,json=pendingBalance,proto3" json:"pending_balance,omitempty"`
+	UpdatedAt        string                 `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *Balance) Reset() {
+	*x = Balance{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Balance) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Balance) ProtoMessage() {}
+
+func (x *Balance) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Balance.ProtoReflect.Descriptor instead.
+func (*Balance) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Balance) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *Balance) GetAvailableBalance() string {
+	if x != nil {
+		return x.AvailableBalance
+	}
+	return ""
+}
+
+func (x *Balance) GetPendingBalance() string {
+	if x != nil {
+		return x.PendingBalance
+	}
+	return ""
+}
+
+func (x *Balance) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type CreateAccountRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId    string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	AccountType   string                 `protobuf:"bytes,2,opt,name=account_type,json=accountType,proto3" json:"account_type,omitempty"`
+	Currency      string                 `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateAccountRequest) Reset() {
+	*x = CreateAccountRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateAccountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateAccountRequest) ProtoMessage() {}
+
+func (x *CreateAccountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateAccountRequest.ProtoReflect.Descriptor instead.
+func (*CreateAccountRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateAccountRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *CreateAccountRequest) GetAccountType() string {
+	if x != nil {
+		return x.AccountType
+	}
+	return ""
+}
+
+func (x *CreateAccountRequest) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+type CreateAccountResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Account       *Account               `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateAccountResponse) Reset() {
+	*x = CreateAccountResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateAccountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateAccountResponse) ProtoMessage() {}
+
+func (x *CreateAccountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateAccountResponse.ProtoReflect.Descriptor instead.
+func (*CreateAccountResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateAccountResponse) GetAccount() *Account {
+	if x != nil {
+		return x.Account
+	}
+	return nil
+}
+
+type GetAccountRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAccountRequest) Reset() {
+	*x = GetAccountRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAccountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAccountRequest) ProtoMessage() {}
+
+func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAccountRequest.ProtoReflect.Descriptor instead.
+func (*GetAccountRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetAccountRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+type GetAccountResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Account       *Account               `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAccountResponse) Reset() {
+	*x = GetAccountResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAccountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAccountResponse) ProtoMessage() {}
+
+func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAccountResponse.ProtoReflect.Descriptor instead.
+func (*GetAccountResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetAccountResponse) GetAccount() *Account {
+	if x != nil {
+		return x.Account
+	}
+	return nil
+}
+
+type GetAccountBalanceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAccountBalanceRequest) Reset() {
+	*x = GetAccountBalanceRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAccountBalanceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAccountBalanceRequest) ProtoMessage() {}
+
+func (x *GetAccountBalanceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAccountBalanceRequest.ProtoReflect.Descriptor instead.
+func (*GetAccountBalanceRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetAccountBalanceRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+type GetAccountBalanceResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Balance       *Balance               `protobuf:"bytes,1,opt,name=balance,proto3" json:"balance,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAccountBalanceResponse) Reset() {
+	*x = GetAccountBalanceResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAccountBalanceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAccountBalanceResponse) ProtoMessage() {}
+
+func (x *GetAccountBalanceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAccountBalanceResponse.ProtoReflect.Descriptor instead.
+func (*GetAccountBalanceResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetAccountBalanceResponse) GetBalance() *Balance {
+	if x != nil {
+		return x.Balance
+	}
+	return nil
+}
+
+type ListCustomerAccountsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId    string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	Status        *string                `protobuf:"bytes,2,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCustomerAccountsRequest) Reset() {
+	*x = ListCustomerAccountsRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCustomerAccountsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCustomerAccountsRequest) ProtoMessage() {}
+
+func (x *ListCustomerAccountsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCustomerAccountsRequest.ProtoReflect.Descriptor instead.
+func (*ListCustomerAccountsRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListCustomerAccountsRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *ListCustomerAccountsRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *ListCustomerAccountsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCustomerAccountsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListCustomerAccountsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Accounts      []*Account             `protobuf:"bytes,1,rep,name=accounts,proto3" json:"accounts,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCustomerAccountsResponse) Reset() {
+	*x = ListCustomerAccountsResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCustomerAccountsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCustomerAccountsResponse) ProtoMessage() {}
+
+func (x *ListCustomerAccountsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCustomerAccountsResponse.ProtoReflect.Descriptor instead.
+func (*ListCustomerAccountsResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ListCustomerAccountsResponse) GetAccounts() []*Account {
+	if x != nil {
+		return x.Accounts
+	}
+	return nil
+}
+
+func (x *ListCustomerAccountsResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListCustomerAccountsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCustomerAccountsResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type UpdateAccountStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAccountStatusRequest) Reset() {
+	*x = UpdateAccountStatusRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAccountStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAccountStatusRequest) ProtoMessage() {}
+
+func (x *UpdateAccountStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAccountStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAccountStatusRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateAccountStatusRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *UpdateAccountStatusRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UpdateAccountStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Account       *Account               `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAccountStatusResponse) Reset() {
+	*x = UpdateAccountStatusResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAccountStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAccountStatusResponse) ProtoMessage() {}
+
+func (x *UpdateAccountStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAccountStatusResponse.ProtoReflect.Descriptor instead.
+func (*UpdateAccountStatusResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UpdateAccountStatusResponse) GetAccount() *Account {
+	if x != nil {
+		return x.Account
+	}
+	return nil
+}
+
+type CloseAccountRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloseAccountRequest) Reset() {
+	*x = CloseAccountRequest{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloseAccountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseAccountRequest) ProtoMessage() {}
+
+func (x *CloseAccountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseAccountRequest.ProtoReflect.Descriptor instead.
+func (*CloseAccountRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *CloseAccountRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *CloseAccountRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type CloseAccountResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloseAccountResponse) Reset() {
+	*x = CloseAccountResponse{}
+	mi := &file_goflux_v1_accountService_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloseAccountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseAccountResponse) ProtoMessage() {}
+
+func (x *CloseAccountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_accountService_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseAccountResponse.ProtoReflect.Descriptor instead.
+func (*CloseAccountResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_accountService_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *CloseAccountResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CloseAccountResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_goflux_v1_accountService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_accountService_proto_rawDesc = "" +
 	"\n" +
-	"\x1egoflux/v1/accountService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"\x1egoflux/v1/accountService.proto\x12\tgoflux.v1\"\xcf\x01\n" +
+	"\aAccount\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vcustomer_id\x18\x02 \x01(\tR\n" +
+	"customerId\x12!\n" +
+	"\faccount_type\x18\x03 \x01(\tR\vaccountType\x12\x1a\n" +
+	"\bcurrency\x18\x04 \x01(\tR\bcurrency\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\tR\tupdatedAt\"\x9d\x01\n" +
+	"\aBalance\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12+\n" +
+	"\x11available_balance\x18\x02 \x01(\tR\x10availableBalance\x12'\n" +
+	"\x0fpending_balance\x18\x03 \x01(\tR\x0ependingBalance\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\x04 \x01(\tR\tupdatedAt\"v\n" +
+	"\x14CreateAccountRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x12!\n" +
+	"\faccount_type\x18\x02 \x01(\tR\vaccountType\x12\x1a\n" +
+	"\bcurrency\x18\x03 \x01(\tR\bcurrency\"E\n" +
+	"\x15CreateAccountResponse\x12,\n" +
+	"\aaccount\x18\x01 \x01(\v2\x12.goflux.v1.AccountR\aaccount\"2\n" +
+	"\x11GetAccountRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\"B\n" +
+	"\x12GetAccountResponse\x12,\n" +
+	"\aaccount\x18\x01 \x01(\v2\x12.goflux.v1.AccountR\aaccount\"9\n" +
+	"\x18GetAccountBalanceRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\"I\n" +
+	"\x19GetAccountBalanceResponse\x12,\n" +
+	"\abalance\x18\x01 \x01(\v2\x12.goflux.v1.BalanceR\abalance\"\x97\x01\n" +
+	"\x1bListCustomerAccountsRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x12\x1b\n" +
+	"\x06status\x18\x02 \x01(\tH\x00R\x06status\x88\x01\x01\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSizeB\t\n" +
+	"\a_status\"\x95\x01\n" +
+	"\x1cListCustomerAccountsResponse\x12.\n" +
+	"\baccounts\x18\x01 \x03(\v2\x12.goflux.v1.AccountR\baccounts\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"S\n" +
+	"\x1aUpdateAccountStatusRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"K\n" +
+	"\x1bUpdateAccountStatusResponse\x12,\n" +
+	"\aaccount\x18\x01 \x01(\v2\x12.goflux.v1.AccountR\aaccount\"L\n" +
+	"\x13CloseAccountRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"J\n" +
+	"\x14CloseAccountResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xaf\x04\n" +
+	"\x0eAccountService\x12R\n" +
+	"\rCreateAccount\x12\x1f.goflux.v1.CreateAccountRequest\x1a .goflux.v1.CreateAccountResponse\x12I\n" +
+	"\n" +
+	"GetAccount\x12\x1c.goflux.v1.GetAccountRequest\x1a\x1d.goflux.v1.GetAccountResponse\x12^\n" +
+	"\x11GetAccountBalance\x12#.goflux.v1.GetAccountBalanceRequest\x1a$.goflux.v1.GetAccountBalanceResponse\x12g\n" +
+	"\x14ListCustomerAccounts\x12&.goflux.v1.ListCustomerAccountsRequest\x1a'.goflux.v1.ListCustomerAccountsResponse\x12d\n" +
+	"\x13UpdateAccountStatus\x12%.goflux.v1.UpdateAccountStatusRequest\x1a&.goflux.v1.UpdateAccountStatusResponse\x12O\n" +
+	"\fCloseAccount\x12\x1e.goflux.v1.CloseAccountRequest\x1a\x1f.goflux.v1.CloseAccountResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_accountService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_accountService_proto_rawDescOnce sync.Once
+	file_goflux_v1_accountService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_accountService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_accountService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_accountService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_accountService_proto_rawDesc), len(file_goflux_v1_accountService_proto_rawDesc)))
+	})
+	return file_goflux_v1_accountService_proto_rawDescData
+}
+
+var file_goflux_v1_accountService_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_goflux_v1_accountService_proto_goTypes = []any{
+	(*Account)(nil),                      // 0: goflux.v1.Account
+	(*Balance)(nil),                      // 1: goflux.v1.Balance
+	(*CreateAccountRequest)(nil),         // 2: goflux.v1.CreateAccountRequest
+	(*CreateAccountResponse)(nil),        // 3: goflux.v1.CreateAccountResponse
+	(*GetAccountRequest)(nil),            // 4: goflux.v1.GetAccountRequest
+	(*GetAccountResponse)(nil),           // 5: goflux.v1.GetAccountResponse
+	(*GetAccountBalanceRequest)(nil),     // 6: goflux.v1.GetAccountBalanceRequest
+	(*GetAccountBalanceResponse)(nil),    // 7: goflux.v1.GetAccountBalanceResponse
+	(*ListCustomerAccountsRequest)(nil),  // 8: goflux.v1.ListCustomerAccountsRequest
+	(*ListCustomerAccountsResponse)(nil), // 9: goflux.v1.ListCustomerAccountsResponse
+	(*UpdateAccountStatusRequest)(nil),   // 10: goflux.v1.UpdateAccountStatusRequest
+	(*UpdateAccountStatusResponse)(nil),  // 11: goflux.v1.UpdateAccountStatusResponse
+	(*CloseAccountRequest)(nil),          // 12: goflux.v1.CloseAccountRequest
+	(*CloseAccountResponse)(nil),         // 13: goflux.v1.CloseAccountResponse
+}
 var file_goflux_v1_accountService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: goflux.v1.CreateAccountResponse.account:type_name -> goflux.v1.Account
+	0,  // 1: goflux.v1.GetAccountResponse.account:type_name -> goflux.v1.Account
+	1,  // 2: goflux.v1.GetAccountBalanceResponse.balance:type_name -> goflux.v1.Balance
+	0,  // 3: goflux.v1.ListCustomerAccountsResponse.accounts:type_name -> goflux.v1.Account
+	0,  // 4: goflux.v1.UpdateAccountStatusResponse.account:type_name -> goflux.v1.Account
+	2,  // 5: goflux.v1.AccountService.CreateAccount:input_type -> goflux.v1.CreateAccountRequest
+	4,  // 6: goflux.v1.AccountService.GetAccount:input_type -> goflux.v1.GetAccountRequest
+	6,  // 7: goflux.v1.AccountService.GetAccountBalance:input_type -> goflux.v1.GetAccountBalanceRequest
+	8,  // 8: goflux.v1.AccountService.ListCustomerAccounts:input_type -> goflux.v1.ListCustomerAccountsRequest
+	10, // 9: goflux.v1.AccountService.UpdateAccountStatus:input_type -> goflux.v1.UpdateAccountStatusRequest
+	12, // 10: goflux.v1.AccountService.CloseAccount:input_type -> goflux.v1.CloseAccountRequest
+	3,  // 11: goflux.v1.AccountService.CreateAccount:output_type -> goflux.v1.CreateAccountResponse
+	5,  // 12: goflux.v1.AccountService.GetAccount:output_type -> goflux.v1.GetAccountResponse
+	7,  // 13: goflux.v1.AccountService.GetAccountBalance:output_type -> goflux.v1.GetAccountBalanceResponse
+	9,  // 14: goflux.v1.AccountService.ListCustomerAccounts:output_type -> goflux.v1.ListCustomerAccountsResponse
+	11, // 15: goflux.v1.AccountService.UpdateAccountStatus:output_type -> goflux.v1.UpdateAccountStatusResponse
+	13, // 16: goflux.v1.AccountService.CloseAccount:output_type -> goflux.v1.CloseAccountResponse
+	11, // [11:17] is the sub-list for method output_type
+	5,  // [5:11] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_accountService_proto_init() }
@@ -40,18 +930,20 @@ func file_goflux_v1_accountService_proto_init() {
 	if File_goflux_v1_accountService_proto != nil {
 		return
 	}
+	file_goflux_v1_accountService_proto_msgTypes[8].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_accountService_proto_rawDesc), len(file_goflux_v1_accountService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   14,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_accountService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_accountService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_accountService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_accountService_proto = out.File
 	file_goflux_v1_accountService_proto_goTypes = nil

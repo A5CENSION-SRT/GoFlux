@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,752 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Transaction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	AccountId     string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	MerchantId    string                 `protobuf:"bytes,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,6,opt,name=currency,proto3" json:"currency,omitempty"`
+	Direction     string                 `protobuf:"bytes,7,opt,name=direction,proto3" json:"direction,omitempty"`
+	Status        string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
+	Reference     string                 `protobuf:"bytes,9,opt,name=reference,proto3" json:"reference,omitempty"`
+	Description   string                 `protobuf:"bytes,10,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	SettledAt     string                 `protobuf:"bytes,12,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Transaction) Reset() {
+	*x = Transaction{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Transaction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Transaction) ProtoMessage() {}
+
+func (x *Transaction) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Transaction.ProtoReflect.Descriptor instead.
+func (*Transaction) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Transaction) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Transaction) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *Transaction) GetMerchantId() string {
+	if x != nil {
+		return x.MerchantId
+	}
+	return ""
+}
+
+func (x *Transaction) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *Transaction) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *Transaction) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+func (x *Transaction) GetDirection() string {
+	if x != nil {
+		return x.Direction
+	}
+	return ""
+}
+
+func (x *Transaction) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Transaction) GetReference() string {
+	if x != nil {
+		return x.Reference
+	}
+	return ""
+}
+
+func (x *Transaction) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Transaction) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Transaction) GetSettledAt() string {
+	if x != nil {
+		return x.SettledAt
+	}
+	return ""
+}
+
+type CreateTransactionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	MerchantId    string                 `protobuf:"bytes,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,3,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Amount        string                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,5,opt,name=currency,proto3" json:"currency,omitempty"`
+	Direction     string                 `protobuf:"bytes,6,opt,name=direction,proto3" json:"direction,omitempty"`
+	Description   string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
+	Reference     string                 `protobuf:"bytes,8,opt,name=reference,proto3" json:"reference,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTransactionRequest) Reset() {
+	*x = CreateTransactionRequest{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTransactionRequest) ProtoMessage() {}
+
+func (x *CreateTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTransactionRequest.ProtoReflect.Descriptor instead.
+func (*CreateTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateTransactionRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetMerchantId() string {
+	if x != nil {
+		return x.MerchantId
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetDirection() string {
+	if x != nil {
+		return x.Direction
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateTransactionRequest) GetReference() string {
+	if x != nil {
+		return x.Reference
+	}
+	return ""
+}
+
+type CreateTransactionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTransactionResponse) Reset() {
+	*x = CreateTransactionResponse{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTransactionResponse) ProtoMessage() {}
+
+func (x *CreateTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTransactionResponse.ProtoReflect.Descriptor instead.
+func (*CreateTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateTransactionResponse) GetTransaction() *Transaction {
+	if x != nil {
+		return x.Transaction
+	}
+	return nil
+}
+
+type GetTransactionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionRequest) Reset() {
+	*x = GetTransactionRequest{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionRequest) ProtoMessage() {}
+
+func (x *GetTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionRequest.ProtoReflect.Descriptor instead.
+func (*GetTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetTransactionRequest) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+type GetTransactionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransactionResponse) Reset() {
+	*x = GetTransactionResponse{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionResponse) ProtoMessage() {}
+
+func (x *GetTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionResponse.ProtoReflect.Descriptor instead.
+func (*GetTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetTransactionResponse) GetTransaction() *Transaction {
+	if x != nil {
+		return x.Transaction
+	}
+	return nil
+}
+
+type ListAccountTransactionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Direction     *string                `protobuf:"bytes,2,opt,name=direction,proto3,oneof" json:"direction,omitempty"`
+	Status        *string                `protobuf:"bytes,3,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	DateFrom      *string                `protobuf:"bytes,4,opt,name=date_from,json=dateFrom,proto3,oneof" json:"date_from,omitempty"`
+	DateTo        *string                `protobuf:"bytes,5,opt,name=date_to,json=dateTo,proto3,oneof" json:"date_to,omitempty"`
+	Page          int32                  `protobuf:"varint,6,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,7,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAccountTransactionsRequest) Reset() {
+	*x = ListAccountTransactionsRequest{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAccountTransactionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAccountTransactionsRequest) ProtoMessage() {}
+
+func (x *ListAccountTransactionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAccountTransactionsRequest.ProtoReflect.Descriptor instead.
+func (*ListAccountTransactionsRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListAccountTransactionsRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *ListAccountTransactionsRequest) GetDirection() string {
+	if x != nil && x.Direction != nil {
+		return *x.Direction
+	}
+	return ""
+}
+
+func (x *ListAccountTransactionsRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *ListAccountTransactionsRequest) GetDateFrom() string {
+	if x != nil && x.DateFrom != nil {
+		return *x.DateFrom
+	}
+	return ""
+}
+
+func (x *ListAccountTransactionsRequest) GetDateTo() string {
+	if x != nil && x.DateTo != nil {
+		return *x.DateTo
+	}
+	return ""
+}
+
+func (x *ListAccountTransactionsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListAccountTransactionsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListAccountTransactionsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transactions  []*Transaction         `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAccountTransactionsResponse) Reset() {
+	*x = ListAccountTransactionsResponse{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAccountTransactionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAccountTransactionsResponse) ProtoMessage() {}
+
+func (x *ListAccountTransactionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAccountTransactionsResponse.ProtoReflect.Descriptor instead.
+func (*ListAccountTransactionsResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListAccountTransactionsResponse) GetTransactions() []*Transaction {
+	if x != nil {
+		return x.Transactions
+	}
+	return nil
+}
+
+func (x *ListAccountTransactionsResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListAccountTransactionsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListAccountTransactionsResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ReverseTransactionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReverseTransactionRequest) Reset() {
+	*x = ReverseTransactionRequest{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReverseTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReverseTransactionRequest) ProtoMessage() {}
+
+func (x *ReverseTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReverseTransactionRequest.ProtoReflect.Descriptor instead.
+func (*ReverseTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ReverseTransactionRequest) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *ReverseTransactionRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type ReverseTransactionResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	OriginalTransaction *Transaction           `protobuf:"bytes,1,opt,name=original_transaction,json=originalTransaction,proto3" json:"original_transaction,omitempty"`
+	ReversalTransaction *Transaction           `protobuf:"bytes,2,opt,name=reversal_transaction,json=reversalTransaction,proto3" json:"reversal_transaction,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ReverseTransactionResponse) Reset() {
+	*x = ReverseTransactionResponse{}
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReverseTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReverseTransactionResponse) ProtoMessage() {}
+
+func (x *ReverseTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transactionService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReverseTransactionResponse.ProtoReflect.Descriptor instead.
+func (*ReverseTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transactionService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ReverseTransactionResponse) GetOriginalTransaction() *Transaction {
+	if x != nil {
+		return x.OriginalTransaction
+	}
+	return nil
+}
+
+func (x *ReverseTransactionResponse) GetReversalTransaction() *Transaction {
+	if x != nil {
+		return x.ReversalTransaction
+	}
+	return nil
+}
+
 var File_goflux_v1_transactionService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_transactionService_proto_rawDesc = "" +
 	"\n" +
-	"\"goflux/v1/transactionService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"\"goflux/v1/transactionService.proto\x12\tgoflux.v1\"\xe6\x02\n" +
+	"\vTransaction\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
+	"\vmerchant_id\x18\x03 \x01(\tR\n" +
+	"merchantId\x12\x1f\n" +
+	"\vcategory_id\x18\x04 \x01(\tR\n" +
+	"categoryId\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x06 \x01(\tR\bcurrency\x12\x1c\n" +
+	"\tdirection\x18\a \x01(\tR\tdirection\x12\x16\n" +
+	"\x06status\x18\b \x01(\tR\x06status\x12\x1c\n" +
+	"\treference\x18\t \x01(\tR\treference\x12 \n" +
+	"\vdescription\x18\n" +
+	" \x01(\tR\vdescription\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\v \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"settled_at\x18\f \x01(\tR\tsettledAt\"\x8d\x02\n" +
+	"\x18CreateTransactionRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1f\n" +
+	"\vmerchant_id\x18\x02 \x01(\tR\n" +
+	"merchantId\x12\x1f\n" +
+	"\vcategory_id\x18\x03 \x01(\tR\n" +
+	"categoryId\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\tR\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x05 \x01(\tR\bcurrency\x12\x1c\n" +
+	"\tdirection\x18\x06 \x01(\tR\tdirection\x12 \n" +
+	"\vdescription\x18\a \x01(\tR\vdescription\x12\x1c\n" +
+	"\treference\x18\b \x01(\tR\treference\"U\n" +
+	"\x19CreateTransactionResponse\x128\n" +
+	"\vtransaction\x18\x01 \x01(\v2\x16.goflux.v1.TransactionR\vtransaction\">\n" +
+	"\x15GetTransactionRequest\x12%\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"R\n" +
+	"\x16GetTransactionResponse\x128\n" +
+	"\vtransaction\x18\x01 \x01(\v2\x16.goflux.v1.TransactionR\vtransaction\"\xa3\x02\n" +
+	"\x1eListAccountTransactionsRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12!\n" +
+	"\tdirection\x18\x02 \x01(\tH\x00R\tdirection\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x03 \x01(\tH\x01R\x06status\x88\x01\x01\x12 \n" +
+	"\tdate_from\x18\x04 \x01(\tH\x02R\bdateFrom\x88\x01\x01\x12\x1c\n" +
+	"\adate_to\x18\x05 \x01(\tH\x03R\x06dateTo\x88\x01\x01\x12\x12\n" +
+	"\x04page\x18\x06 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\a \x01(\x05R\bpageSizeB\f\n" +
+	"\n" +
+	"_directionB\t\n" +
+	"\a_statusB\f\n" +
+	"\n" +
+	"_date_fromB\n" +
+	"\n" +
+	"\b_date_to\"\xa4\x01\n" +
+	"\x1fListAccountTransactionsResponse\x12:\n" +
+	"\ftransactions\x18\x01 \x03(\v2\x16.goflux.v1.TransactionR\ftransactions\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"Z\n" +
+	"\x19ReverseTransactionRequest\x12%\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"\xb2\x01\n" +
+	"\x1aReverseTransactionResponse\x12I\n" +
+	"\x14original_transaction\x18\x01 \x01(\v2\x16.goflux.v1.TransactionR\x13originalTransaction\x12I\n" +
+	"\x14reversal_transaction\x18\x02 \x01(\v2\x16.goflux.v1.TransactionR\x13reversalTransaction2\xa0\x03\n" +
+	"\x12TransactionService\x12^\n" +
+	"\x11CreateTransaction\x12#.goflux.v1.CreateTransactionRequest\x1a$.goflux.v1.CreateTransactionResponse\x12U\n" +
+	"\x0eGetTransaction\x12 .goflux.v1.GetTransactionRequest\x1a!.goflux.v1.GetTransactionResponse\x12p\n" +
+	"\x17ListAccountTransactions\x12).goflux.v1.ListAccountTransactionsRequest\x1a*.goflux.v1.ListAccountTransactionsResponse\x12a\n" +
+	"\x12ReverseTransaction\x12$.goflux.v1.ReverseTransactionRequest\x1a%.goflux.v1.ReverseTransactionResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_transactionService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_transactionService_proto_rawDescOnce sync.Once
+	file_goflux_v1_transactionService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_transactionService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_transactionService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_transactionService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_transactionService_proto_rawDesc), len(file_goflux_v1_transactionService_proto_rawDesc)))
+	})
+	return file_goflux_v1_transactionService_proto_rawDescData
+}
+
+var file_goflux_v1_transactionService_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_goflux_v1_transactionService_proto_goTypes = []any{
+	(*Transaction)(nil),                     // 0: goflux.v1.Transaction
+	(*CreateTransactionRequest)(nil),        // 1: goflux.v1.CreateTransactionRequest
+	(*CreateTransactionResponse)(nil),       // 2: goflux.v1.CreateTransactionResponse
+	(*GetTransactionRequest)(nil),           // 3: goflux.v1.GetTransactionRequest
+	(*GetTransactionResponse)(nil),          // 4: goflux.v1.GetTransactionResponse
+	(*ListAccountTransactionsRequest)(nil),  // 5: goflux.v1.ListAccountTransactionsRequest
+	(*ListAccountTransactionsResponse)(nil), // 6: goflux.v1.ListAccountTransactionsResponse
+	(*ReverseTransactionRequest)(nil),       // 7: goflux.v1.ReverseTransactionRequest
+	(*ReverseTransactionResponse)(nil),      // 8: goflux.v1.ReverseTransactionResponse
+}
 var file_goflux_v1_transactionService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: goflux.v1.CreateTransactionResponse.transaction:type_name -> goflux.v1.Transaction
+	0, // 1: goflux.v1.GetTransactionResponse.transaction:type_name -> goflux.v1.Transaction
+	0, // 2: goflux.v1.ListAccountTransactionsResponse.transactions:type_name -> goflux.v1.Transaction
+	0, // 3: goflux.v1.ReverseTransactionResponse.original_transaction:type_name -> goflux.v1.Transaction
+	0, // 4: goflux.v1.ReverseTransactionResponse.reversal_transaction:type_name -> goflux.v1.Transaction
+	1, // 5: goflux.v1.TransactionService.CreateTransaction:input_type -> goflux.v1.CreateTransactionRequest
+	3, // 6: goflux.v1.TransactionService.GetTransaction:input_type -> goflux.v1.GetTransactionRequest
+	5, // 7: goflux.v1.TransactionService.ListAccountTransactions:input_type -> goflux.v1.ListAccountTransactionsRequest
+	7, // 8: goflux.v1.TransactionService.ReverseTransaction:input_type -> goflux.v1.ReverseTransactionRequest
+	2, // 9: goflux.v1.TransactionService.CreateTransaction:output_type -> goflux.v1.CreateTransactionResponse
+	4, // 10: goflux.v1.TransactionService.GetTransaction:output_type -> goflux.v1.GetTransactionResponse
+	6, // 11: goflux.v1.TransactionService.ListAccountTransactions:output_type -> goflux.v1.ListAccountTransactionsResponse
+	8, // 12: goflux.v1.TransactionService.ReverseTransaction:output_type -> goflux.v1.ReverseTransactionResponse
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_transactionService_proto_init() }
@@ -40,18 +774,20 @@ func file_goflux_v1_transactionService_proto_init() {
 	if File_goflux_v1_transactionService_proto != nil {
 		return
 	}
+	file_goflux_v1_transactionService_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_transactionService_proto_rawDesc), len(file_goflux_v1_transactionService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   9,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_transactionService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_transactionService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_transactionService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_transactionService_proto = out.File
 	file_goflux_v1_transactionService_proto_goTypes = nil

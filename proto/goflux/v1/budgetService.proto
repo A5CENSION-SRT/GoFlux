@@ -1,3 +1,89 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message Budget {
+    string id              = 1;
+    string account_id      = 2;
+    string category_id     = 3;
+    string amount          = 4;
+    string period          = 5;
+    string start_date      = 6;
+    string end_date        = 7;
+    string alert_threshold = 8;
+    string created_at      = 9;
+    string updated_at      = 10;
+}
+
+message BudgetStatus {
+    Budget budget          = 1;
+    string spent_amount    = 2;
+    string remaining       = 3;
+    string percentage_used = 4;
+    bool   alert_triggered = 5;
+}
+
+message CreateBudgetRequest {
+    string account_id      = 1;
+    string category_id     = 2;
+    string amount          = 3;
+    string period          = 4;
+    string start_date      = 5;
+    string end_date        = 6;
+    string alert_threshold = 7;
+}
+
+message CreateBudgetResponse {
+    Budget budget = 1;
+}
+
+message GetBudgetStatusRequest {
+    string budget_id = 1;
+}
+
+message GetBudgetStatusResponse {
+    BudgetStatus budget_status = 1;
+}
+
+message ListBudgetsRequest {
+    string          account_id  = 1;
+    optional string period      = 2;
+    optional string category_id = 3;
+    int32           page        = 4;
+    int32           page_size   = 5;
+}
+
+message ListBudgetsResponse {
+    repeated Budget budgets   = 1;
+    int32           total     = 2;
+    int32           page      = 3;
+    int32           page_size = 4;
+}
+
+message UpdateBudgetRequest {
+    string          budget_id       = 1;
+    optional string amount          = 2;
+    optional string alert_threshold = 3;
+    optional string end_date        = 4;
+}
+
+message UpdateBudgetResponse {
+    Budget budget = 1;
+}
+
+message DeleteBudgetRequest {
+    string budget_id = 1;
+}
+
+message DeleteBudgetResponse {
+    bool   success = 1;
+    string message = 2;
+}
+
+service BudgetService {
+    rpc CreateBudget     (CreateBudgetRequest)     returns (CreateBudgetResponse);
+    rpc GetBudgetStatus  (GetBudgetStatusRequest)  returns (GetBudgetStatusResponse);
+    rpc ListBudgets      (ListBudgetsRequest)       returns (ListBudgetsResponse);
+    rpc UpdateBudget     (UpdateBudgetRequest)      returns (UpdateBudgetResponse);
+    rpc DeleteBudget     (DeleteBudgetRequest)      returns (DeleteBudgetResponse);
+}

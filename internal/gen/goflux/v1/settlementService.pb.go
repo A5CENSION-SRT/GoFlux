@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,757 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type SettlementBatch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	BatchDate     string                 `protobuf:"bytes,2,opt,name=batch_date,json=batchDate,proto3" json:"batch_date,omitempty"`
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	TotalAmount   string                 `protobuf:"bytes,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
+	TransferCount int32                  `protobuf:"varint,5,opt,name=transfer_count,json=transferCount,proto3" json:"transfer_count,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	SettledAt     string                 `protobuf:"bytes,7,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SettlementBatch) Reset() {
+	*x = SettlementBatch{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SettlementBatch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SettlementBatch) ProtoMessage() {}
+
+func (x *SettlementBatch) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SettlementBatch.ProtoReflect.Descriptor instead.
+func (*SettlementBatch) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *SettlementBatch) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SettlementBatch) GetBatchDate() string {
+	if x != nil {
+		return x.BatchDate
+	}
+	return ""
+}
+
+func (x *SettlementBatch) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *SettlementBatch) GetTotalAmount() string {
+	if x != nil {
+		return x.TotalAmount
+	}
+	return ""
+}
+
+func (x *SettlementBatch) GetTransferCount() int32 {
+	if x != nil {
+		return x.TransferCount
+	}
+	return 0
+}
+
+func (x *SettlementBatch) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *SettlementBatch) GetSettledAt() string {
+	if x != nil {
+		return x.SettledAt
+	}
+	return ""
+}
+
+type SettlementBatchItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	BatchId       string                 `protobuf:"bytes,2,opt,name=batch_id,json=batchId,proto3" json:"batch_id,omitempty"`
+	TransferId    string                 `protobuf:"bytes,3,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	Amount        string                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SettlementBatchItem) Reset() {
+	*x = SettlementBatchItem{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SettlementBatchItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SettlementBatchItem) ProtoMessage() {}
+
+func (x *SettlementBatchItem) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SettlementBatchItem.ProtoReflect.Descriptor instead.
+func (*SettlementBatchItem) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SettlementBatchItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SettlementBatchItem) GetBatchId() string {
+	if x != nil {
+		return x.BatchId
+	}
+	return ""
+}
+
+func (x *SettlementBatchItem) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+func (x *SettlementBatchItem) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *SettlementBatchItem) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *SettlementBatchItem) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type GetSettlementBatchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BatchDate     string                 `protobuf:"bytes,1,opt,name=batch_date,json=batchDate,proto3" json:"batch_date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSettlementBatchRequest) Reset() {
+	*x = GetSettlementBatchRequest{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSettlementBatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSettlementBatchRequest) ProtoMessage() {}
+
+func (x *GetSettlementBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSettlementBatchRequest.ProtoReflect.Descriptor instead.
+func (*GetSettlementBatchRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetSettlementBatchRequest) GetBatchDate() string {
+	if x != nil {
+		return x.BatchDate
+	}
+	return ""
+}
+
+type GetSettlementBatchResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Batch         *SettlementBatch       `protobuf:"bytes,1,opt,name=batch,proto3" json:"batch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSettlementBatchResponse) Reset() {
+	*x = GetSettlementBatchResponse{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSettlementBatchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSettlementBatchResponse) ProtoMessage() {}
+
+func (x *GetSettlementBatchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSettlementBatchResponse.ProtoReflect.Descriptor instead.
+func (*GetSettlementBatchResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetSettlementBatchResponse) GetBatch() *SettlementBatch {
+	if x != nil {
+		return x.Batch
+	}
+	return nil
+}
+
+type ListSettlementBatchesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        *string                `protobuf:"bytes,1,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	DateFrom      *string                `protobuf:"bytes,2,opt,name=date_from,json=dateFrom,proto3,oneof" json:"date_from,omitempty"`
+	DateTo        *string                `protobuf:"bytes,3,opt,name=date_to,json=dateTo,proto3,oneof" json:"date_to,omitempty"`
+	Page          int32                  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSettlementBatchesRequest) Reset() {
+	*x = ListSettlementBatchesRequest{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSettlementBatchesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSettlementBatchesRequest) ProtoMessage() {}
+
+func (x *ListSettlementBatchesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSettlementBatchesRequest.ProtoReflect.Descriptor instead.
+func (*ListSettlementBatchesRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListSettlementBatchesRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *ListSettlementBatchesRequest) GetDateFrom() string {
+	if x != nil && x.DateFrom != nil {
+		return *x.DateFrom
+	}
+	return ""
+}
+
+func (x *ListSettlementBatchesRequest) GetDateTo() string {
+	if x != nil && x.DateTo != nil {
+		return *x.DateTo
+	}
+	return ""
+}
+
+func (x *ListSettlementBatchesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListSettlementBatchesRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListSettlementBatchesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Batches       []*SettlementBatch     `protobuf:"bytes,1,rep,name=batches,proto3" json:"batches,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSettlementBatchesResponse) Reset() {
+	*x = ListSettlementBatchesResponse{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSettlementBatchesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSettlementBatchesResponse) ProtoMessage() {}
+
+func (x *ListSettlementBatchesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSettlementBatchesResponse.ProtoReflect.Descriptor instead.
+func (*ListSettlementBatchesResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListSettlementBatchesResponse) GetBatches() []*SettlementBatch {
+	if x != nil {
+		return x.Batches
+	}
+	return nil
+}
+
+func (x *ListSettlementBatchesResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListSettlementBatchesResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListSettlementBatchesResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type GetBatchItemsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BatchId       string                 `protobuf:"bytes,1,opt,name=batch_id,json=batchId,proto3" json:"batch_id,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBatchItemsRequest) Reset() {
+	*x = GetBatchItemsRequest{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBatchItemsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBatchItemsRequest) ProtoMessage() {}
+
+func (x *GetBatchItemsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBatchItemsRequest.ProtoReflect.Descriptor instead.
+func (*GetBatchItemsRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetBatchItemsRequest) GetBatchId() string {
+	if x != nil {
+		return x.BatchId
+	}
+	return ""
+}
+
+func (x *GetBatchItemsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetBatchItemsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type GetBatchItemsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*SettlementBatchItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBatchItemsResponse) Reset() {
+	*x = GetBatchItemsResponse{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBatchItemsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBatchItemsResponse) ProtoMessage() {}
+
+func (x *GetBatchItemsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBatchItemsResponse.ProtoReflect.Descriptor instead.
+func (*GetBatchItemsResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetBatchItemsResponse) GetItems() []*SettlementBatchItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *GetBatchItemsResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *GetBatchItemsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetBatchItemsResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ProcessBatchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BatchDate     string                 `protobuf:"bytes,1,opt,name=batch_date,json=batchDate,proto3" json:"batch_date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProcessBatchRequest) Reset() {
+	*x = ProcessBatchRequest{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessBatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessBatchRequest) ProtoMessage() {}
+
+func (x *ProcessBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessBatchRequest.ProtoReflect.Descriptor instead.
+func (*ProcessBatchRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ProcessBatchRequest) GetBatchDate() string {
+	if x != nil {
+		return x.BatchDate
+	}
+	return ""
+}
+
+type ProcessBatchResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Batch          *SettlementBatch       `protobuf:"bytes,1,opt,name=batch,proto3" json:"batch,omitempty"`
+	ProcessedCount int32                  `protobuf:"varint,2,opt,name=processed_count,json=processedCount,proto3" json:"processed_count,omitempty"`
+	FailedCount    int32                  `protobuf:"varint,3,opt,name=failed_count,json=failedCount,proto3" json:"failed_count,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ProcessBatchResponse) Reset() {
+	*x = ProcessBatchResponse{}
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessBatchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessBatchResponse) ProtoMessage() {}
+
+func (x *ProcessBatchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_settlementService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessBatchResponse.ProtoReflect.Descriptor instead.
+func (*ProcessBatchResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_settlementService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ProcessBatchResponse) GetBatch() *SettlementBatch {
+	if x != nil {
+		return x.Batch
+	}
+	return nil
+}
+
+func (x *ProcessBatchResponse) GetProcessedCount() int32 {
+	if x != nil {
+		return x.ProcessedCount
+	}
+	return 0
+}
+
+func (x *ProcessBatchResponse) GetFailedCount() int32 {
+	if x != nil {
+		return x.FailedCount
+	}
+	return 0
+}
+
 var File_goflux_v1_settlementService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_settlementService_proto_rawDesc = "" +
 	"\n" +
-	"!goflux/v1/settlementService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"!goflux/v1/settlementService.proto\x12\tgoflux.v1\"\xe0\x01\n" +
+	"\x0fSettlementBatch\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"batch_date\x18\x02 \x01(\tR\tbatchDate\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12!\n" +
+	"\ftotal_amount\x18\x04 \x01(\tR\vtotalAmount\x12%\n" +
+	"\x0etransfer_count\x18\x05 \x01(\x05R\rtransferCount\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"settled_at\x18\a \x01(\tR\tsettledAt\"\xb0\x01\n" +
+	"\x13SettlementBatchItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
+	"\bbatch_id\x18\x02 \x01(\tR\abatchId\x12\x1f\n" +
+	"\vtransfer_id\x18\x03 \x01(\tR\n" +
+	"transferId\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\tR\x06amount\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\":\n" +
+	"\x19GetSettlementBatchRequest\x12\x1d\n" +
+	"\n" +
+	"batch_date\x18\x01 \x01(\tR\tbatchDate\"N\n" +
+	"\x1aGetSettlementBatchResponse\x120\n" +
+	"\x05batch\x18\x01 \x01(\v2\x1a.goflux.v1.SettlementBatchR\x05batch\"\xd1\x01\n" +
+	"\x1cListSettlementBatchesRequest\x12\x1b\n" +
+	"\x06status\x18\x01 \x01(\tH\x00R\x06status\x88\x01\x01\x12 \n" +
+	"\tdate_from\x18\x02 \x01(\tH\x01R\bdateFrom\x88\x01\x01\x12\x1c\n" +
+	"\adate_to\x18\x03 \x01(\tH\x02R\x06dateTo\x88\x01\x01\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x05 \x01(\x05R\bpageSizeB\t\n" +
+	"\a_statusB\f\n" +
+	"\n" +
+	"_date_fromB\n" +
+	"\n" +
+	"\b_date_to\"\x9c\x01\n" +
+	"\x1dListSettlementBatchesResponse\x124\n" +
+	"\abatches\x18\x01 \x03(\v2\x1a.goflux.v1.SettlementBatchR\abatches\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"b\n" +
+	"\x14GetBatchItemsRequest\x12\x19\n" +
+	"\bbatch_id\x18\x01 \x01(\tR\abatchId\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"\x94\x01\n" +
+	"\x15GetBatchItemsResponse\x124\n" +
+	"\x05items\x18\x01 \x03(\v2\x1e.goflux.v1.SettlementBatchItemR\x05items\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"4\n" +
+	"\x13ProcessBatchRequest\x12\x1d\n" +
+	"\n" +
+	"batch_date\x18\x01 \x01(\tR\tbatchDate\"\x94\x01\n" +
+	"\x14ProcessBatchResponse\x120\n" +
+	"\x05batch\x18\x01 \x01(\v2\x1a.goflux.v1.SettlementBatchR\x05batch\x12'\n" +
+	"\x0fprocessed_count\x18\x02 \x01(\x05R\x0eprocessedCount\x12!\n" +
+	"\ffailed_count\x18\x03 \x01(\x05R\vfailedCount2\x87\x03\n" +
+	"\x11SettlementService\x12a\n" +
+	"\x12GetSettlementBatch\x12$.goflux.v1.GetSettlementBatchRequest\x1a%.goflux.v1.GetSettlementBatchResponse\x12j\n" +
+	"\x15ListSettlementBatches\x12'.goflux.v1.ListSettlementBatchesRequest\x1a(.goflux.v1.ListSettlementBatchesResponse\x12R\n" +
+	"\rGetBatchItems\x12\x1f.goflux.v1.GetBatchItemsRequest\x1a .goflux.v1.GetBatchItemsResponse\x12O\n" +
+	"\fProcessBatch\x12\x1e.goflux.v1.ProcessBatchRequest\x1a\x1f.goflux.v1.ProcessBatchResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_settlementService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_settlementService_proto_rawDescOnce sync.Once
+	file_goflux_v1_settlementService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_settlementService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_settlementService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_settlementService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_settlementService_proto_rawDesc), len(file_goflux_v1_settlementService_proto_rawDesc)))
+	})
+	return file_goflux_v1_settlementService_proto_rawDescData
+}
+
+var file_goflux_v1_settlementService_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_goflux_v1_settlementService_proto_goTypes = []any{
+	(*SettlementBatch)(nil),               // 0: goflux.v1.SettlementBatch
+	(*SettlementBatchItem)(nil),           // 1: goflux.v1.SettlementBatchItem
+	(*GetSettlementBatchRequest)(nil),     // 2: goflux.v1.GetSettlementBatchRequest
+	(*GetSettlementBatchResponse)(nil),    // 3: goflux.v1.GetSettlementBatchResponse
+	(*ListSettlementBatchesRequest)(nil),  // 4: goflux.v1.ListSettlementBatchesRequest
+	(*ListSettlementBatchesResponse)(nil), // 5: goflux.v1.ListSettlementBatchesResponse
+	(*GetBatchItemsRequest)(nil),          // 6: goflux.v1.GetBatchItemsRequest
+	(*GetBatchItemsResponse)(nil),         // 7: goflux.v1.GetBatchItemsResponse
+	(*ProcessBatchRequest)(nil),           // 8: goflux.v1.ProcessBatchRequest
+	(*ProcessBatchResponse)(nil),          // 9: goflux.v1.ProcessBatchResponse
+}
 var file_goflux_v1_settlementService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: goflux.v1.GetSettlementBatchResponse.batch:type_name -> goflux.v1.SettlementBatch
+	0, // 1: goflux.v1.ListSettlementBatchesResponse.batches:type_name -> goflux.v1.SettlementBatch
+	1, // 2: goflux.v1.GetBatchItemsResponse.items:type_name -> goflux.v1.SettlementBatchItem
+	0, // 3: goflux.v1.ProcessBatchResponse.batch:type_name -> goflux.v1.SettlementBatch
+	2, // 4: goflux.v1.SettlementService.GetSettlementBatch:input_type -> goflux.v1.GetSettlementBatchRequest
+	4, // 5: goflux.v1.SettlementService.ListSettlementBatches:input_type -> goflux.v1.ListSettlementBatchesRequest
+	6, // 6: goflux.v1.SettlementService.GetBatchItems:input_type -> goflux.v1.GetBatchItemsRequest
+	8, // 7: goflux.v1.SettlementService.ProcessBatch:input_type -> goflux.v1.ProcessBatchRequest
+	3, // 8: goflux.v1.SettlementService.GetSettlementBatch:output_type -> goflux.v1.GetSettlementBatchResponse
+	5, // 9: goflux.v1.SettlementService.ListSettlementBatches:output_type -> goflux.v1.ListSettlementBatchesResponse
+	7, // 10: goflux.v1.SettlementService.GetBatchItems:output_type -> goflux.v1.GetBatchItemsResponse
+	9, // 11: goflux.v1.SettlementService.ProcessBatch:output_type -> goflux.v1.ProcessBatchResponse
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_settlementService_proto_init() }
@@ -40,18 +779,20 @@ func file_goflux_v1_settlementService_proto_init() {
 	if File_goflux_v1_settlementService_proto != nil {
 		return
 	}
+	file_goflux_v1_settlementService_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_settlementService_proto_rawDesc), len(file_goflux_v1_settlementService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   10,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_settlementService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_settlementService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_settlementService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_settlementService_proto = out.File
 	file_goflux_v1_settlementService_proto_goTypes = nil

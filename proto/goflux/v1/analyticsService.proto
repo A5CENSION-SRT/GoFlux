@@ -1,3 +1,95 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message CategorySpend {
+    string category_id   = 1;
+    string category_name = 2;
+    string total_spent   = 3;
+    string percentage    = 4;
+    int32  transaction_count = 5;
+}
+
+message MonthlySpend {
+    string year        = 1;
+    string month       = 2;
+    string total_spent = 3;
+    string total_earned = 4;
+}
+
+message MerchantSpend {
+    string merchant_id   = 1;
+    string merchant_name = 2;
+    string total_spent   = 3;
+    int32  visit_count   = 4;
+}
+
+message GetSpendingByCategoryRequest {
+    string          account_id  = 1;
+    optional string date_from   = 2;
+    optional string date_to     = 3;
+}
+
+message GetSpendingByCategoryResponse {
+    repeated CategorySpend categories  = 1;
+    string                 total_spent = 2;
+}
+
+message GetMonthlySpendingTrendRequest {
+    string account_id   = 1;
+    int32  months_back  = 2;
+}
+
+message GetMonthlySpendingTrendResponse {
+    repeated MonthlySpend months = 1;
+}
+
+message GetTopMerchantsRequest {
+    string          account_id = 1;
+    optional string date_from  = 2;
+    optional string date_to    = 3;
+    int32           limit      = 4;
+}
+
+message GetTopMerchantsResponse {
+    repeated MerchantSpend merchants = 1;
+}
+
+message GetCashflowSummaryRequest {
+    string account_id = 1;
+    string date_from  = 2;
+    string date_to    = 3;
+}
+
+message GetCashflowSummaryResponse {
+    string total_debits        = 1;
+    string total_credits       = 2;
+    string net_cashflow        = 3;
+    int32  total_transactions  = 4;
+}
+
+message GetBudgetVsActualRequest {
+    string account_id = 1;
+    string period     = 2;
+}
+
+message GetBudgetVsActualResponse {
+    repeated BudgetVsActualItem items = 1;
+}
+
+message BudgetVsActualItem {
+    string category_id    = 1;
+    string category_name  = 2;
+    string budgeted       = 3;
+    string actual_spent   = 4;
+    string variance       = 5;
+    bool   over_budget    = 6;
+}
+
+service AnalyticsService {
+    rpc GetSpendingByCategory   (GetSpendingByCategoryRequest)   returns (GetSpendingByCategoryResponse);
+    rpc GetMonthlySpendingTrend (GetMonthlySpendingTrendRequest) returns (GetMonthlySpendingTrendResponse);
+    rpc GetTopMerchants         (GetTopMerchantsRequest)         returns (GetTopMerchantsResponse);
+    rpc GetCashflowSummary      (GetCashflowSummaryRequest)      returns (GetCashflowSummaryResponse);
+    rpc GetBudgetVsActual       (GetBudgetVsActualRequest)       returns (GetBudgetVsActualResponse);
+}

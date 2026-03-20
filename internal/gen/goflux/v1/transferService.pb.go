@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,853 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Transfer struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	OriginAccountId      string                 `protobuf:"bytes,2,opt,name=origin_account_id,json=originAccountId,proto3" json:"origin_account_id,omitempty"`
+	DestinationAccountId string                 `protobuf:"bytes,3,opt,name=destination_account_id,json=destinationAccountId,proto3" json:"destination_account_id,omitempty"`
+	Amount               string                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency             string                 `protobuf:"bytes,5,opt,name=currency,proto3" json:"currency,omitempty"`
+	Status               string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	ExchangeRate         string                 `protobuf:"bytes,7,opt,name=exchange_rate,json=exchangeRate,proto3" json:"exchange_rate,omitempty"`
+	InitiatedAt          string                 `protobuf:"bytes,8,opt,name=initiated_at,json=initiatedAt,proto3" json:"initiated_at,omitempty"`
+	SettledAt            string                 `protobuf:"bytes,9,opt,name=settled_at,json=settledAt,proto3" json:"settled_at,omitempty"`
+	Description          string                 `protobuf:"bytes,10,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *Transfer) Reset() {
+	*x = Transfer{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Transfer) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Transfer) ProtoMessage() {}
+
+func (x *Transfer) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Transfer.ProtoReflect.Descriptor instead.
+func (*Transfer) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Transfer) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Transfer) GetOriginAccountId() string {
+	if x != nil {
+		return x.OriginAccountId
+	}
+	return ""
+}
+
+func (x *Transfer) GetDestinationAccountId() string {
+	if x != nil {
+		return x.DestinationAccountId
+	}
+	return ""
+}
+
+func (x *Transfer) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *Transfer) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+func (x *Transfer) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Transfer) GetExchangeRate() string {
+	if x != nil {
+		return x.ExchangeRate
+	}
+	return ""
+}
+
+func (x *Transfer) GetInitiatedAt() string {
+	if x != nil {
+		return x.InitiatedAt
+	}
+	return ""
+}
+
+func (x *Transfer) GetSettledAt() string {
+	if x != nil {
+		return x.SettledAt
+	}
+	return ""
+}
+
+func (x *Transfer) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type TransferHop struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TransferId     string                 `protobuf:"bytes,2,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	SequenceNumber int32                  `protobuf:"varint,3,opt,name=sequence_number,json=sequenceNumber,proto3" json:"sequence_number,omitempty"`
+	FromNode       string                 `protobuf:"bytes,4,opt,name=from_node,json=fromNode,proto3" json:"from_node,omitempty"`
+	ToNode         string                 `protobuf:"bytes,5,opt,name=to_node,json=toNode,proto3" json:"to_node,omitempty"`
+	HopStatus      string                 `protobuf:"bytes,6,opt,name=hop_status,json=hopStatus,proto3" json:"hop_status,omitempty"`
+	Amount         string                 `protobuf:"bytes,7,opt,name=amount,proto3" json:"amount,omitempty"`
+	Fee            string                 `protobuf:"bytes,8,opt,name=fee,proto3" json:"fee,omitempty"`
+	ProcessedAt    string                 `protobuf:"bytes,9,opt,name=processed_at,json=processedAt,proto3" json:"processed_at,omitempty"`
+	CreatedAt      string                 `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *TransferHop) Reset() {
+	*x = TransferHop{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransferHop) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferHop) ProtoMessage() {}
+
+func (x *TransferHop) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferHop.ProtoReflect.Descriptor instead.
+func (*TransferHop) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *TransferHop) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *TransferHop) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+func (x *TransferHop) GetSequenceNumber() int32 {
+	if x != nil {
+		return x.SequenceNumber
+	}
+	return 0
+}
+
+func (x *TransferHop) GetFromNode() string {
+	if x != nil {
+		return x.FromNode
+	}
+	return ""
+}
+
+func (x *TransferHop) GetToNode() string {
+	if x != nil {
+		return x.ToNode
+	}
+	return ""
+}
+
+func (x *TransferHop) GetHopStatus() string {
+	if x != nil {
+		return x.HopStatus
+	}
+	return ""
+}
+
+func (x *TransferHop) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *TransferHop) GetFee() string {
+	if x != nil {
+		return x.Fee
+	}
+	return ""
+}
+
+func (x *TransferHop) GetProcessedAt() string {
+	if x != nil {
+		return x.ProcessedAt
+	}
+	return ""
+}
+
+func (x *TransferHop) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type InitiateTransferRequest struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	OriginAccountId      string                 `protobuf:"bytes,1,opt,name=origin_account_id,json=originAccountId,proto3" json:"origin_account_id,omitempty"`
+	DestinationAccountId string                 `protobuf:"bytes,2,opt,name=destination_account_id,json=destinationAccountId,proto3" json:"destination_account_id,omitempty"`
+	Amount               string                 `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Currency             string                 `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
+	Description          string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *InitiateTransferRequest) Reset() {
+	*x = InitiateTransferRequest{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InitiateTransferRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InitiateTransferRequest) ProtoMessage() {}
+
+func (x *InitiateTransferRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InitiateTransferRequest.ProtoReflect.Descriptor instead.
+func (*InitiateTransferRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *InitiateTransferRequest) GetOriginAccountId() string {
+	if x != nil {
+		return x.OriginAccountId
+	}
+	return ""
+}
+
+func (x *InitiateTransferRequest) GetDestinationAccountId() string {
+	if x != nil {
+		return x.DestinationAccountId
+	}
+	return ""
+}
+
+func (x *InitiateTransferRequest) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *InitiateTransferRequest) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
+}
+
+func (x *InitiateTransferRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type InitiateTransferResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transfer      *Transfer              `protobuf:"bytes,1,opt,name=transfer,proto3" json:"transfer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InitiateTransferResponse) Reset() {
+	*x = InitiateTransferResponse{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InitiateTransferResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InitiateTransferResponse) ProtoMessage() {}
+
+func (x *InitiateTransferResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InitiateTransferResponse.ProtoReflect.Descriptor instead.
+func (*InitiateTransferResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *InitiateTransferResponse) GetTransfer() *Transfer {
+	if x != nil {
+		return x.Transfer
+	}
+	return nil
+}
+
+type GetTransferStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransferId    string                 `protobuf:"bytes,1,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransferStatusRequest) Reset() {
+	*x = GetTransferStatusRequest{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransferStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransferStatusRequest) ProtoMessage() {}
+
+func (x *GetTransferStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransferStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetTransferStatusRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetTransferStatusRequest) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+type GetTransferStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transfer      *Transfer              `protobuf:"bytes,1,opt,name=transfer,proto3" json:"transfer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransferStatusResponse) Reset() {
+	*x = GetTransferStatusResponse{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransferStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransferStatusResponse) ProtoMessage() {}
+
+func (x *GetTransferStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransferStatusResponse.ProtoReflect.Descriptor instead.
+func (*GetTransferStatusResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetTransferStatusResponse) GetTransfer() *Transfer {
+	if x != nil {
+		return x.Transfer
+	}
+	return nil
+}
+
+type GetTransferPathRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransferId    string                 `protobuf:"bytes,1,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransferPathRequest) Reset() {
+	*x = GetTransferPathRequest{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransferPathRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransferPathRequest) ProtoMessage() {}
+
+func (x *GetTransferPathRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransferPathRequest.ProtoReflect.Descriptor instead.
+func (*GetTransferPathRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetTransferPathRequest) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+type GetTransferPathResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transfer      *Transfer              `protobuf:"bytes,1,opt,name=transfer,proto3" json:"transfer,omitempty"`
+	Hops          []*TransferHop         `protobuf:"bytes,2,rep,name=hops,proto3" json:"hops,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTransferPathResponse) Reset() {
+	*x = GetTransferPathResponse{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTransferPathResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransferPathResponse) ProtoMessage() {}
+
+func (x *GetTransferPathResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransferPathResponse.ProtoReflect.Descriptor instead.
+func (*GetTransferPathResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetTransferPathResponse) GetTransfer() *Transfer {
+	if x != nil {
+		return x.Transfer
+	}
+	return nil
+}
+
+func (x *GetTransferPathResponse) GetHops() []*TransferHop {
+	if x != nil {
+		return x.Hops
+	}
+	return nil
+}
+
+type CancelTransferRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransferId    string                 `protobuf:"bytes,1,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelTransferRequest) Reset() {
+	*x = CancelTransferRequest{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelTransferRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelTransferRequest) ProtoMessage() {}
+
+func (x *CancelTransferRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelTransferRequest.ProtoReflect.Descriptor instead.
+func (*CancelTransferRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CancelTransferRequest) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+func (x *CancelTransferRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type CancelTransferResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelTransferResponse) Reset() {
+	*x = CancelTransferResponse{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelTransferResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelTransferResponse) ProtoMessage() {}
+
+func (x *CancelTransferResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelTransferResponse.ProtoReflect.Descriptor instead.
+func (*CancelTransferResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CancelTransferResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CancelTransferResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type RetryTransferRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransferId    string                 `protobuf:"bytes,1,opt,name=transfer_id,json=transferId,proto3" json:"transfer_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RetryTransferRequest) Reset() {
+	*x = RetryTransferRequest{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RetryTransferRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RetryTransferRequest) ProtoMessage() {}
+
+func (x *RetryTransferRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RetryTransferRequest.ProtoReflect.Descriptor instead.
+func (*RetryTransferRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RetryTransferRequest) GetTransferId() string {
+	if x != nil {
+		return x.TransferId
+	}
+	return ""
+}
+
+type RetryTransferResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transfer      *Transfer              `protobuf:"bytes,1,opt,name=transfer,proto3" json:"transfer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RetryTransferResponse) Reset() {
+	*x = RetryTransferResponse{}
+	mi := &file_goflux_v1_transferService_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RetryTransferResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RetryTransferResponse) ProtoMessage() {}
+
+func (x *RetryTransferResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_transferService_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RetryTransferResponse.ProtoReflect.Descriptor instead.
+func (*RetryTransferResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_transferService_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *RetryTransferResponse) GetTransfer() *Transfer {
+	if x != nil {
+		return x.Transfer
+	}
+	return nil
+}
+
 var File_goflux_v1_transferService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_transferService_proto_rawDesc = "" +
 	"\n" +
-	"\x1fgoflux/v1/transferService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"\x1fgoflux/v1/transferService.proto\x12\tgoflux.v1\"\xd1\x02\n" +
+	"\bTransfer\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12*\n" +
+	"\x11origin_account_id\x18\x02 \x01(\tR\x0foriginAccountId\x124\n" +
+	"\x16destination_account_id\x18\x03 \x01(\tR\x14destinationAccountId\x12\x16\n" +
+	"\x06amount\x18\x04 \x01(\tR\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x05 \x01(\tR\bcurrency\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\x12#\n" +
+	"\rexchange_rate\x18\a \x01(\tR\fexchangeRate\x12!\n" +
+	"\finitiated_at\x18\b \x01(\tR\vinitiatedAt\x12\x1d\n" +
+	"\n" +
+	"settled_at\x18\t \x01(\tR\tsettledAt\x12 \n" +
+	"\vdescription\x18\n" +
+	" \x01(\tR\vdescription\"\xa8\x02\n" +
+	"\vTransferHop\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vtransfer_id\x18\x02 \x01(\tR\n" +
+	"transferId\x12'\n" +
+	"\x0fsequence_number\x18\x03 \x01(\x05R\x0esequenceNumber\x12\x1b\n" +
+	"\tfrom_node\x18\x04 \x01(\tR\bfromNode\x12\x17\n" +
+	"\ato_node\x18\x05 \x01(\tR\x06toNode\x12\x1d\n" +
+	"\n" +
+	"hop_status\x18\x06 \x01(\tR\thopStatus\x12\x16\n" +
+	"\x06amount\x18\a \x01(\tR\x06amount\x12\x10\n" +
+	"\x03fee\x18\b \x01(\tR\x03fee\x12!\n" +
+	"\fprocessed_at\x18\t \x01(\tR\vprocessedAt\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\n" +
+	" \x01(\tR\tcreatedAt\"\xd1\x01\n" +
+	"\x17InitiateTransferRequest\x12*\n" +
+	"\x11origin_account_id\x18\x01 \x01(\tR\x0foriginAccountId\x124\n" +
+	"\x16destination_account_id\x18\x02 \x01(\tR\x14destinationAccountId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\tR\x06amount\x12\x1a\n" +
+	"\bcurrency\x18\x04 \x01(\tR\bcurrency\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\"K\n" +
+	"\x18InitiateTransferResponse\x12/\n" +
+	"\btransfer\x18\x01 \x01(\v2\x13.goflux.v1.TransferR\btransfer\";\n" +
+	"\x18GetTransferStatusRequest\x12\x1f\n" +
+	"\vtransfer_id\x18\x01 \x01(\tR\n" +
+	"transferId\"L\n" +
+	"\x19GetTransferStatusResponse\x12/\n" +
+	"\btransfer\x18\x01 \x01(\v2\x13.goflux.v1.TransferR\btransfer\"9\n" +
+	"\x16GetTransferPathRequest\x12\x1f\n" +
+	"\vtransfer_id\x18\x01 \x01(\tR\n" +
+	"transferId\"v\n" +
+	"\x17GetTransferPathResponse\x12/\n" +
+	"\btransfer\x18\x01 \x01(\v2\x13.goflux.v1.TransferR\btransfer\x12*\n" +
+	"\x04hops\x18\x02 \x03(\v2\x16.goflux.v1.TransferHopR\x04hops\"P\n" +
+	"\x15CancelTransferRequest\x12\x1f\n" +
+	"\vtransfer_id\x18\x01 \x01(\tR\n" +
+	"transferId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"L\n" +
+	"\x16CancelTransferResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"7\n" +
+	"\x14RetryTransferRequest\x12\x1f\n" +
+	"\vtransfer_id\x18\x01 \x01(\tR\n" +
+	"transferId\"H\n" +
+	"\x15RetryTransferResponse\x12/\n" +
+	"\btransfer\x18\x01 \x01(\v2\x13.goflux.v1.TransferR\btransfer2\xd3\x03\n" +
+	"\x0fTransferService\x12[\n" +
+	"\x10InitiateTransfer\x12\".goflux.v1.InitiateTransferRequest\x1a#.goflux.v1.InitiateTransferResponse\x12^\n" +
+	"\x11GetTransferStatus\x12#.goflux.v1.GetTransferStatusRequest\x1a$.goflux.v1.GetTransferStatusResponse\x12X\n" +
+	"\x0fGetTransferPath\x12!.goflux.v1.GetTransferPathRequest\x1a\".goflux.v1.GetTransferPathResponse\x12U\n" +
+	"\x0eCancelTransfer\x12 .goflux.v1.CancelTransferRequest\x1a!.goflux.v1.CancelTransferResponse\x12R\n" +
+	"\rRetryTransfer\x12\x1f.goflux.v1.RetryTransferRequest\x1a .goflux.v1.RetryTransferResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_transferService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_transferService_proto_rawDescOnce sync.Once
+	file_goflux_v1_transferService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_transferService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_transferService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_transferService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_transferService_proto_rawDesc), len(file_goflux_v1_transferService_proto_rawDesc)))
+	})
+	return file_goflux_v1_transferService_proto_rawDescData
+}
+
+var file_goflux_v1_transferService_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_goflux_v1_transferService_proto_goTypes = []any{
+	(*Transfer)(nil),                  // 0: goflux.v1.Transfer
+	(*TransferHop)(nil),               // 1: goflux.v1.TransferHop
+	(*InitiateTransferRequest)(nil),   // 2: goflux.v1.InitiateTransferRequest
+	(*InitiateTransferResponse)(nil),  // 3: goflux.v1.InitiateTransferResponse
+	(*GetTransferStatusRequest)(nil),  // 4: goflux.v1.GetTransferStatusRequest
+	(*GetTransferStatusResponse)(nil), // 5: goflux.v1.GetTransferStatusResponse
+	(*GetTransferPathRequest)(nil),    // 6: goflux.v1.GetTransferPathRequest
+	(*GetTransferPathResponse)(nil),   // 7: goflux.v1.GetTransferPathResponse
+	(*CancelTransferRequest)(nil),     // 8: goflux.v1.CancelTransferRequest
+	(*CancelTransferResponse)(nil),    // 9: goflux.v1.CancelTransferResponse
+	(*RetryTransferRequest)(nil),      // 10: goflux.v1.RetryTransferRequest
+	(*RetryTransferResponse)(nil),     // 11: goflux.v1.RetryTransferResponse
+}
 var file_goflux_v1_transferService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: goflux.v1.InitiateTransferResponse.transfer:type_name -> goflux.v1.Transfer
+	0,  // 1: goflux.v1.GetTransferStatusResponse.transfer:type_name -> goflux.v1.Transfer
+	0,  // 2: goflux.v1.GetTransferPathResponse.transfer:type_name -> goflux.v1.Transfer
+	1,  // 3: goflux.v1.GetTransferPathResponse.hops:type_name -> goflux.v1.TransferHop
+	0,  // 4: goflux.v1.RetryTransferResponse.transfer:type_name -> goflux.v1.Transfer
+	2,  // 5: goflux.v1.TransferService.InitiateTransfer:input_type -> goflux.v1.InitiateTransferRequest
+	4,  // 6: goflux.v1.TransferService.GetTransferStatus:input_type -> goflux.v1.GetTransferStatusRequest
+	6,  // 7: goflux.v1.TransferService.GetTransferPath:input_type -> goflux.v1.GetTransferPathRequest
+	8,  // 8: goflux.v1.TransferService.CancelTransfer:input_type -> goflux.v1.CancelTransferRequest
+	10, // 9: goflux.v1.TransferService.RetryTransfer:input_type -> goflux.v1.RetryTransferRequest
+	3,  // 10: goflux.v1.TransferService.InitiateTransfer:output_type -> goflux.v1.InitiateTransferResponse
+	5,  // 11: goflux.v1.TransferService.GetTransferStatus:output_type -> goflux.v1.GetTransferStatusResponse
+	7,  // 12: goflux.v1.TransferService.GetTransferPath:output_type -> goflux.v1.GetTransferPathResponse
+	9,  // 13: goflux.v1.TransferService.CancelTransfer:output_type -> goflux.v1.CancelTransferResponse
+	11, // 14: goflux.v1.TransferService.RetryTransfer:output_type -> goflux.v1.RetryTransferResponse
+	10, // [10:15] is the sub-list for method output_type
+	5,  // [5:10] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_transferService_proto_init() }
@@ -46,12 +881,13 @@ func file_goflux_v1_transferService_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_transferService_proto_rawDesc), len(file_goflux_v1_transferService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   12,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_transferService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_transferService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_transferService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_transferService_proto = out.File
 	file_goflux_v1_transferService_proto_goTypes = nil

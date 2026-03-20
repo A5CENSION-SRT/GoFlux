@@ -1,3 +1,80 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message MerchantCategory {
+    string id         = 1;
+    string name       = 2;
+    string parent_id  = 3;
+    string icon       = 4;
+    string color      = 5;
+    string created_at = 6;
+}
+
+message GetCategoryRequest {
+    string category_id = 1;
+}
+
+message GetCategoryResponse {
+    MerchantCategory category = 1;
+}
+
+message ListCategoriesRequest {
+    int32 page      = 1;
+    int32 page_size = 2;
+}
+
+message ListCategoriesResponse {
+    repeated MerchantCategory categories = 1;
+    int32                     total      = 2;
+    int32                     page       = 3;
+    int32                     page_size  = 4;
+}
+
+message GetSubCategoriesRequest {
+    string category_id = 1;
+}
+
+message GetSubCategoriesResponse {
+    repeated MerchantCategory subcategories = 1;
+}
+
+message CreateCategoryRequest {
+    string          name      = 1;
+    optional string parent_id = 2;
+    optional string icon      = 3;
+    optional string color     = 4;
+}
+
+message CreateCategoryResponse {
+    MerchantCategory category = 1;
+}
+
+message UpdateCategoryRequest {
+    string          category_id = 1;
+    optional string name        = 2;
+    optional string icon        = 3;
+    optional string color       = 4;
+}
+
+message UpdateCategoryResponse {
+    MerchantCategory category = 1;
+}
+
+message DeleteCategoryRequest {
+    string category_id = 1;
+}
+
+message DeleteCategoryResponse {
+    bool   success = 1;
+    string message = 2;
+}
+
+service MerchantCategoryService {
+    rpc GetCategory       (GetCategoryRequest)       returns (GetCategoryResponse);
+    rpc ListCategories    (ListCategoriesRequest)    returns (ListCategoriesResponse);
+    rpc GetSubCategories  (GetSubCategoriesRequest)  returns (GetSubCategoriesResponse);
+    rpc CreateCategory    (CreateCategoryRequest)    returns (CreateCategoryResponse);
+    rpc UpdateCategory    (UpdateCategoryRequest)    returns (UpdateCategoryResponse);
+    rpc DeleteCategory    (DeleteCategoryRequest)    returns (DeleteCategoryResponse);
+}

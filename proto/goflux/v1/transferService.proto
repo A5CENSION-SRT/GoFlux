@@ -1,3 +1,84 @@
 syntax = "proto3";
 package goflux.v1;
 option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
+
+message Transfer {
+    string id                     = 1;
+    string origin_account_id      = 2;
+    string destination_account_id = 3;
+    string amount                 = 4;
+    string currency               = 5;
+    string status                 = 6;
+    string exchange_rate          = 7;
+    string initiated_at           = 8;
+    string settled_at             = 9;
+    string description            = 10;
+}
+
+message TransferHop {
+    string id              = 1;
+    string transfer_id     = 2;
+    int32  sequence_number = 3;
+    string from_node       = 4;
+    string to_node         = 5;
+    string hop_status      = 6;
+    string amount          = 7;
+    string fee             = 8;
+    string processed_at    = 9;
+    string created_at      = 10;
+}
+
+message InitiateTransferRequest {
+    string origin_account_id      = 1;
+    string destination_account_id = 2;
+    string amount                 = 3;
+    string currency               = 4;
+    string description            = 5;
+}
+
+message InitiateTransferResponse {
+    Transfer transfer = 1;
+}
+
+message GetTransferStatusRequest {
+    string transfer_id = 1;
+}
+
+message GetTransferStatusResponse {
+    Transfer transfer = 1;
+}
+
+message GetTransferPathRequest {
+    string transfer_id = 1;
+}
+
+message GetTransferPathResponse {
+    Transfer              transfer = 1;
+    repeated TransferHop  hops     = 2;
+}
+
+message CancelTransferRequest {
+    string transfer_id = 1;
+    string reason      = 2;
+}
+
+message CancelTransferResponse {
+    bool   success = 1;
+    string message = 2;
+}
+
+message RetryTransferRequest {
+    string transfer_id = 1;
+}
+
+message RetryTransferResponse {
+    Transfer transfer = 1;
+}
+
+service TransferService {
+    rpc InitiateTransfer   (InitiateTransferRequest)   returns (InitiateTransferResponse);
+    rpc GetTransferStatus  (GetTransferStatusRequest)  returns (GetTransferStatusResponse);
+    rpc GetTransferPath    (GetTransferPathRequest)    returns (GetTransferPathResponse);
+    rpc CancelTransfer     (CancelTransferRequest)     returns (CancelTransferResponse);
+    rpc RetryTransfer      (RetryTransferRequest)      returns (RetryTransferResponse);
+}

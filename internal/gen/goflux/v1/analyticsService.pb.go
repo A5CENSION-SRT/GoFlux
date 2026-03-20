@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,990 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type CategorySpend struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId       string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	CategoryName     string                 `protobuf:"bytes,2,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	TotalSpent       string                 `protobuf:"bytes,3,opt,name=total_spent,json=totalSpent,proto3" json:"total_spent,omitempty"`
+	Percentage       string                 `protobuf:"bytes,4,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	TransactionCount int32                  `protobuf:"varint,5,opt,name=transaction_count,json=transactionCount,proto3" json:"transaction_count,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *CategorySpend) Reset() {
+	*x = CategorySpend{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CategorySpend) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CategorySpend) ProtoMessage() {}
+
+func (x *CategorySpend) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CategorySpend.ProtoReflect.Descriptor instead.
+func (*CategorySpend) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CategorySpend) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *CategorySpend) GetCategoryName() string {
+	if x != nil {
+		return x.CategoryName
+	}
+	return ""
+}
+
+func (x *CategorySpend) GetTotalSpent() string {
+	if x != nil {
+		return x.TotalSpent
+	}
+	return ""
+}
+
+func (x *CategorySpend) GetPercentage() string {
+	if x != nil {
+		return x.Percentage
+	}
+	return ""
+}
+
+func (x *CategorySpend) GetTransactionCount() int32 {
+	if x != nil {
+		return x.TransactionCount
+	}
+	return 0
+}
+
+type MonthlySpend struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Year          string                 `protobuf:"bytes,1,opt,name=year,proto3" json:"year,omitempty"`
+	Month         string                 `protobuf:"bytes,2,opt,name=month,proto3" json:"month,omitempty"`
+	TotalSpent    string                 `protobuf:"bytes,3,opt,name=total_spent,json=totalSpent,proto3" json:"total_spent,omitempty"`
+	TotalEarned   string                 `protobuf:"bytes,4,opt,name=total_earned,json=totalEarned,proto3" json:"total_earned,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MonthlySpend) Reset() {
+	*x = MonthlySpend{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MonthlySpend) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MonthlySpend) ProtoMessage() {}
+
+func (x *MonthlySpend) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MonthlySpend.ProtoReflect.Descriptor instead.
+func (*MonthlySpend) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MonthlySpend) GetYear() string {
+	if x != nil {
+		return x.Year
+	}
+	return ""
+}
+
+func (x *MonthlySpend) GetMonth() string {
+	if x != nil {
+		return x.Month
+	}
+	return ""
+}
+
+func (x *MonthlySpend) GetTotalSpent() string {
+	if x != nil {
+		return x.TotalSpent
+	}
+	return ""
+}
+
+func (x *MonthlySpend) GetTotalEarned() string {
+	if x != nil {
+		return x.TotalEarned
+	}
+	return ""
+}
+
+type MerchantSpend struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantName  string                 `protobuf:"bytes,2,opt,name=merchant_name,json=merchantName,proto3" json:"merchant_name,omitempty"`
+	TotalSpent    string                 `protobuf:"bytes,3,opt,name=total_spent,json=totalSpent,proto3" json:"total_spent,omitempty"`
+	VisitCount    int32                  `protobuf:"varint,4,opt,name=visit_count,json=visitCount,proto3" json:"visit_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MerchantSpend) Reset() {
+	*x = MerchantSpend{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MerchantSpend) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MerchantSpend) ProtoMessage() {}
+
+func (x *MerchantSpend) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MerchantSpend.ProtoReflect.Descriptor instead.
+func (*MerchantSpend) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *MerchantSpend) GetMerchantId() string {
+	if x != nil {
+		return x.MerchantId
+	}
+	return ""
+}
+
+func (x *MerchantSpend) GetMerchantName() string {
+	if x != nil {
+		return x.MerchantName
+	}
+	return ""
+}
+
+func (x *MerchantSpend) GetTotalSpent() string {
+	if x != nil {
+		return x.TotalSpent
+	}
+	return ""
+}
+
+func (x *MerchantSpend) GetVisitCount() int32 {
+	if x != nil {
+		return x.VisitCount
+	}
+	return 0
+}
+
+type GetSpendingByCategoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	DateFrom      *string                `protobuf:"bytes,2,opt,name=date_from,json=dateFrom,proto3,oneof" json:"date_from,omitempty"`
+	DateTo        *string                `protobuf:"bytes,3,opt,name=date_to,json=dateTo,proto3,oneof" json:"date_to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSpendingByCategoryRequest) Reset() {
+	*x = GetSpendingByCategoryRequest{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSpendingByCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSpendingByCategoryRequest) ProtoMessage() {}
+
+func (x *GetSpendingByCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSpendingByCategoryRequest.ProtoReflect.Descriptor instead.
+func (*GetSpendingByCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetSpendingByCategoryRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *GetSpendingByCategoryRequest) GetDateFrom() string {
+	if x != nil && x.DateFrom != nil {
+		return *x.DateFrom
+	}
+	return ""
+}
+
+func (x *GetSpendingByCategoryRequest) GetDateTo() string {
+	if x != nil && x.DateTo != nil {
+		return *x.DateTo
+	}
+	return ""
+}
+
+type GetSpendingByCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Categories    []*CategorySpend       `protobuf:"bytes,1,rep,name=categories,proto3" json:"categories,omitempty"`
+	TotalSpent    string                 `protobuf:"bytes,2,opt,name=total_spent,json=totalSpent,proto3" json:"total_spent,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSpendingByCategoryResponse) Reset() {
+	*x = GetSpendingByCategoryResponse{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSpendingByCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSpendingByCategoryResponse) ProtoMessage() {}
+
+func (x *GetSpendingByCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSpendingByCategoryResponse.ProtoReflect.Descriptor instead.
+func (*GetSpendingByCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetSpendingByCategoryResponse) GetCategories() []*CategorySpend {
+	if x != nil {
+		return x.Categories
+	}
+	return nil
+}
+
+func (x *GetSpendingByCategoryResponse) GetTotalSpent() string {
+	if x != nil {
+		return x.TotalSpent
+	}
+	return ""
+}
+
+type GetMonthlySpendingTrendRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	MonthsBack    int32                  `protobuf:"varint,2,opt,name=months_back,json=monthsBack,proto3" json:"months_back,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMonthlySpendingTrendRequest) Reset() {
+	*x = GetMonthlySpendingTrendRequest{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMonthlySpendingTrendRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMonthlySpendingTrendRequest) ProtoMessage() {}
+
+func (x *GetMonthlySpendingTrendRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMonthlySpendingTrendRequest.ProtoReflect.Descriptor instead.
+func (*GetMonthlySpendingTrendRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetMonthlySpendingTrendRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *GetMonthlySpendingTrendRequest) GetMonthsBack() int32 {
+	if x != nil {
+		return x.MonthsBack
+	}
+	return 0
+}
+
+type GetMonthlySpendingTrendResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Months        []*MonthlySpend        `protobuf:"bytes,1,rep,name=months,proto3" json:"months,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMonthlySpendingTrendResponse) Reset() {
+	*x = GetMonthlySpendingTrendResponse{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMonthlySpendingTrendResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMonthlySpendingTrendResponse) ProtoMessage() {}
+
+func (x *GetMonthlySpendingTrendResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMonthlySpendingTrendResponse.ProtoReflect.Descriptor instead.
+func (*GetMonthlySpendingTrendResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetMonthlySpendingTrendResponse) GetMonths() []*MonthlySpend {
+	if x != nil {
+		return x.Months
+	}
+	return nil
+}
+
+type GetTopMerchantsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	DateFrom      *string                `protobuf:"bytes,2,opt,name=date_from,json=dateFrom,proto3,oneof" json:"date_from,omitempty"`
+	DateTo        *string                `protobuf:"bytes,3,opt,name=date_to,json=dateTo,proto3,oneof" json:"date_to,omitempty"`
+	Limit         int32                  `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTopMerchantsRequest) Reset() {
+	*x = GetTopMerchantsRequest{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTopMerchantsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTopMerchantsRequest) ProtoMessage() {}
+
+func (x *GetTopMerchantsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTopMerchantsRequest.ProtoReflect.Descriptor instead.
+func (*GetTopMerchantsRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetTopMerchantsRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *GetTopMerchantsRequest) GetDateFrom() string {
+	if x != nil && x.DateFrom != nil {
+		return *x.DateFrom
+	}
+	return ""
+}
+
+func (x *GetTopMerchantsRequest) GetDateTo() string {
+	if x != nil && x.DateTo != nil {
+		return *x.DateTo
+	}
+	return ""
+}
+
+func (x *GetTopMerchantsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type GetTopMerchantsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Merchants     []*MerchantSpend       `protobuf:"bytes,1,rep,name=merchants,proto3" json:"merchants,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTopMerchantsResponse) Reset() {
+	*x = GetTopMerchantsResponse{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTopMerchantsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTopMerchantsResponse) ProtoMessage() {}
+
+func (x *GetTopMerchantsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTopMerchantsResponse.ProtoReflect.Descriptor instead.
+func (*GetTopMerchantsResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetTopMerchantsResponse) GetMerchants() []*MerchantSpend {
+	if x != nil {
+		return x.Merchants
+	}
+	return nil
+}
+
+type GetCashflowSummaryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	DateFrom      string                 `protobuf:"bytes,2,opt,name=date_from,json=dateFrom,proto3" json:"date_from,omitempty"`
+	DateTo        string                 `protobuf:"bytes,3,opt,name=date_to,json=dateTo,proto3" json:"date_to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCashflowSummaryRequest) Reset() {
+	*x = GetCashflowSummaryRequest{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCashflowSummaryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCashflowSummaryRequest) ProtoMessage() {}
+
+func (x *GetCashflowSummaryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCashflowSummaryRequest.ProtoReflect.Descriptor instead.
+func (*GetCashflowSummaryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetCashflowSummaryRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *GetCashflowSummaryRequest) GetDateFrom() string {
+	if x != nil {
+		return x.DateFrom
+	}
+	return ""
+}
+
+func (x *GetCashflowSummaryRequest) GetDateTo() string {
+	if x != nil {
+		return x.DateTo
+	}
+	return ""
+}
+
+type GetCashflowSummaryResponse struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TotalDebits       string                 `protobuf:"bytes,1,opt,name=total_debits,json=totalDebits,proto3" json:"total_debits,omitempty"`
+	TotalCredits      string                 `protobuf:"bytes,2,opt,name=total_credits,json=totalCredits,proto3" json:"total_credits,omitempty"`
+	NetCashflow       string                 `protobuf:"bytes,3,opt,name=net_cashflow,json=netCashflow,proto3" json:"net_cashflow,omitempty"`
+	TotalTransactions int32                  `protobuf:"varint,4,opt,name=total_transactions,json=totalTransactions,proto3" json:"total_transactions,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetCashflowSummaryResponse) Reset() {
+	*x = GetCashflowSummaryResponse{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCashflowSummaryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCashflowSummaryResponse) ProtoMessage() {}
+
+func (x *GetCashflowSummaryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCashflowSummaryResponse.ProtoReflect.Descriptor instead.
+func (*GetCashflowSummaryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetCashflowSummaryResponse) GetTotalDebits() string {
+	if x != nil {
+		return x.TotalDebits
+	}
+	return ""
+}
+
+func (x *GetCashflowSummaryResponse) GetTotalCredits() string {
+	if x != nil {
+		return x.TotalCredits
+	}
+	return ""
+}
+
+func (x *GetCashflowSummaryResponse) GetNetCashflow() string {
+	if x != nil {
+		return x.NetCashflow
+	}
+	return ""
+}
+
+func (x *GetCashflowSummaryResponse) GetTotalTransactions() int32 {
+	if x != nil {
+		return x.TotalTransactions
+	}
+	return 0
+}
+
+type GetBudgetVsActualRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Period        string                 `protobuf:"bytes,2,opt,name=period,proto3" json:"period,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetVsActualRequest) Reset() {
+	*x = GetBudgetVsActualRequest{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetVsActualRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetVsActualRequest) ProtoMessage() {}
+
+func (x *GetBudgetVsActualRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetVsActualRequest.ProtoReflect.Descriptor instead.
+func (*GetBudgetVsActualRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetBudgetVsActualRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *GetBudgetVsActualRequest) GetPeriod() string {
+	if x != nil {
+		return x.Period
+	}
+	return ""
+}
+
+type GetBudgetVsActualResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*BudgetVsActualItem  `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetVsActualResponse) Reset() {
+	*x = GetBudgetVsActualResponse{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetVsActualResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetVsActualResponse) ProtoMessage() {}
+
+func (x *GetBudgetVsActualResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetVsActualResponse.ProtoReflect.Descriptor instead.
+func (*GetBudgetVsActualResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetBudgetVsActualResponse) GetItems() []*BudgetVsActualItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type BudgetVsActualItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	CategoryName  string                 `protobuf:"bytes,2,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	Budgeted      string                 `protobuf:"bytes,3,opt,name=budgeted,proto3" json:"budgeted,omitempty"`
+	ActualSpent   string                 `protobuf:"bytes,4,opt,name=actual_spent,json=actualSpent,proto3" json:"actual_spent,omitempty"`
+	Variance      string                 `protobuf:"bytes,5,opt,name=variance,proto3" json:"variance,omitempty"`
+	OverBudget    bool                   `protobuf:"varint,6,opt,name=over_budget,json=overBudget,proto3" json:"over_budget,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BudgetVsActualItem) Reset() {
+	*x = BudgetVsActualItem{}
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BudgetVsActualItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BudgetVsActualItem) ProtoMessage() {}
+
+func (x *BudgetVsActualItem) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_analyticsService_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BudgetVsActualItem.ProtoReflect.Descriptor instead.
+func (*BudgetVsActualItem) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_analyticsService_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *BudgetVsActualItem) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *BudgetVsActualItem) GetCategoryName() string {
+	if x != nil {
+		return x.CategoryName
+	}
+	return ""
+}
+
+func (x *BudgetVsActualItem) GetBudgeted() string {
+	if x != nil {
+		return x.Budgeted
+	}
+	return ""
+}
+
+func (x *BudgetVsActualItem) GetActualSpent() string {
+	if x != nil {
+		return x.ActualSpent
+	}
+	return ""
+}
+
+func (x *BudgetVsActualItem) GetVariance() string {
+	if x != nil {
+		return x.Variance
+	}
+	return ""
+}
+
+func (x *BudgetVsActualItem) GetOverBudget() bool {
+	if x != nil {
+		return x.OverBudget
+	}
+	return false
+}
+
 var File_goflux_v1_analyticsService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_analyticsService_proto_rawDesc = "" +
 	"\n" +
-	" goflux/v1/analyticsService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	" goflux/v1/analyticsService.proto\x12\tgoflux.v1\"\xc3\x01\n" +
+	"\rCategorySpend\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\x12#\n" +
+	"\rcategory_name\x18\x02 \x01(\tR\fcategoryName\x12\x1f\n" +
+	"\vtotal_spent\x18\x03 \x01(\tR\n" +
+	"totalSpent\x12\x1e\n" +
+	"\n" +
+	"percentage\x18\x04 \x01(\tR\n" +
+	"percentage\x12+\n" +
+	"\x11transaction_count\x18\x05 \x01(\x05R\x10transactionCount\"|\n" +
+	"\fMonthlySpend\x12\x12\n" +
+	"\x04year\x18\x01 \x01(\tR\x04year\x12\x14\n" +
+	"\x05month\x18\x02 \x01(\tR\x05month\x12\x1f\n" +
+	"\vtotal_spent\x18\x03 \x01(\tR\n" +
+	"totalSpent\x12!\n" +
+	"\ftotal_earned\x18\x04 \x01(\tR\vtotalEarned\"\x97\x01\n" +
+	"\rMerchantSpend\x12\x1f\n" +
+	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"merchantId\x12#\n" +
+	"\rmerchant_name\x18\x02 \x01(\tR\fmerchantName\x12\x1f\n" +
+	"\vtotal_spent\x18\x03 \x01(\tR\n" +
+	"totalSpent\x12\x1f\n" +
+	"\vvisit_count\x18\x04 \x01(\x05R\n" +
+	"visitCount\"\x97\x01\n" +
+	"\x1cGetSpendingByCategoryRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12 \n" +
+	"\tdate_from\x18\x02 \x01(\tH\x00R\bdateFrom\x88\x01\x01\x12\x1c\n" +
+	"\adate_to\x18\x03 \x01(\tH\x01R\x06dateTo\x88\x01\x01B\f\n" +
+	"\n" +
+	"_date_fromB\n" +
+	"\n" +
+	"\b_date_to\"z\n" +
+	"\x1dGetSpendingByCategoryResponse\x128\n" +
+	"\n" +
+	"categories\x18\x01 \x03(\v2\x18.goflux.v1.CategorySpendR\n" +
+	"categories\x12\x1f\n" +
+	"\vtotal_spent\x18\x02 \x01(\tR\n" +
+	"totalSpent\"`\n" +
+	"\x1eGetMonthlySpendingTrendRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1f\n" +
+	"\vmonths_back\x18\x02 \x01(\x05R\n" +
+	"monthsBack\"R\n" +
+	"\x1fGetMonthlySpendingTrendResponse\x12/\n" +
+	"\x06months\x18\x01 \x03(\v2\x17.goflux.v1.MonthlySpendR\x06months\"\xa7\x01\n" +
+	"\x16GetTopMerchantsRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12 \n" +
+	"\tdate_from\x18\x02 \x01(\tH\x00R\bdateFrom\x88\x01\x01\x12\x1c\n" +
+	"\adate_to\x18\x03 \x01(\tH\x01R\x06dateTo\x88\x01\x01\x12\x14\n" +
+	"\x05limit\x18\x04 \x01(\x05R\x05limitB\f\n" +
+	"\n" +
+	"_date_fromB\n" +
+	"\n" +
+	"\b_date_to\"Q\n" +
+	"\x17GetTopMerchantsResponse\x126\n" +
+	"\tmerchants\x18\x01 \x03(\v2\x18.goflux.v1.MerchantSpendR\tmerchants\"p\n" +
+	"\x19GetCashflowSummaryRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1b\n" +
+	"\tdate_from\x18\x02 \x01(\tR\bdateFrom\x12\x17\n" +
+	"\adate_to\x18\x03 \x01(\tR\x06dateTo\"\xb6\x01\n" +
+	"\x1aGetCashflowSummaryResponse\x12!\n" +
+	"\ftotal_debits\x18\x01 \x01(\tR\vtotalDebits\x12#\n" +
+	"\rtotal_credits\x18\x02 \x01(\tR\ftotalCredits\x12!\n" +
+	"\fnet_cashflow\x18\x03 \x01(\tR\vnetCashflow\x12-\n" +
+	"\x12total_transactions\x18\x04 \x01(\x05R\x11totalTransactions\"Q\n" +
+	"\x18GetBudgetVsActualRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\x12\x16\n" +
+	"\x06period\x18\x02 \x01(\tR\x06period\"P\n" +
+	"\x19GetBudgetVsActualResponse\x123\n" +
+	"\x05items\x18\x01 \x03(\v2\x1d.goflux.v1.BudgetVsActualItemR\x05items\"\xd6\x01\n" +
+	"\x12BudgetVsActualItem\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\x12#\n" +
+	"\rcategory_name\x18\x02 \x01(\tR\fcategoryName\x12\x1a\n" +
+	"\bbudgeted\x18\x03 \x01(\tR\bbudgeted\x12!\n" +
+	"\factual_spent\x18\x04 \x01(\tR\vactualSpent\x12\x1a\n" +
+	"\bvariance\x18\x05 \x01(\tR\bvariance\x12\x1f\n" +
+	"\vover_budget\x18\x06 \x01(\bR\n" +
+	"overBudget2\x8d\x04\n" +
+	"\x10AnalyticsService\x12j\n" +
+	"\x15GetSpendingByCategory\x12'.goflux.v1.GetSpendingByCategoryRequest\x1a(.goflux.v1.GetSpendingByCategoryResponse\x12p\n" +
+	"\x17GetMonthlySpendingTrend\x12).goflux.v1.GetMonthlySpendingTrendRequest\x1a*.goflux.v1.GetMonthlySpendingTrendResponse\x12X\n" +
+	"\x0fGetTopMerchants\x12!.goflux.v1.GetTopMerchantsRequest\x1a\".goflux.v1.GetTopMerchantsResponse\x12a\n" +
+	"\x12GetCashflowSummary\x12$.goflux.v1.GetCashflowSummaryRequest\x1a%.goflux.v1.GetCashflowSummaryResponse\x12^\n" +
+	"\x11GetBudgetVsActual\x12#.goflux.v1.GetBudgetVsActualRequest\x1a$.goflux.v1.GetBudgetVsActualResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_analyticsService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_analyticsService_proto_rawDescOnce sync.Once
+	file_goflux_v1_analyticsService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_analyticsService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_analyticsService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_analyticsService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_analyticsService_proto_rawDesc), len(file_goflux_v1_analyticsService_proto_rawDesc)))
+	})
+	return file_goflux_v1_analyticsService_proto_rawDescData
+}
+
+var file_goflux_v1_analyticsService_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_goflux_v1_analyticsService_proto_goTypes = []any{
+	(*CategorySpend)(nil),                   // 0: goflux.v1.CategorySpend
+	(*MonthlySpend)(nil),                    // 1: goflux.v1.MonthlySpend
+	(*MerchantSpend)(nil),                   // 2: goflux.v1.MerchantSpend
+	(*GetSpendingByCategoryRequest)(nil),    // 3: goflux.v1.GetSpendingByCategoryRequest
+	(*GetSpendingByCategoryResponse)(nil),   // 4: goflux.v1.GetSpendingByCategoryResponse
+	(*GetMonthlySpendingTrendRequest)(nil),  // 5: goflux.v1.GetMonthlySpendingTrendRequest
+	(*GetMonthlySpendingTrendResponse)(nil), // 6: goflux.v1.GetMonthlySpendingTrendResponse
+	(*GetTopMerchantsRequest)(nil),          // 7: goflux.v1.GetTopMerchantsRequest
+	(*GetTopMerchantsResponse)(nil),         // 8: goflux.v1.GetTopMerchantsResponse
+	(*GetCashflowSummaryRequest)(nil),       // 9: goflux.v1.GetCashflowSummaryRequest
+	(*GetCashflowSummaryResponse)(nil),      // 10: goflux.v1.GetCashflowSummaryResponse
+	(*GetBudgetVsActualRequest)(nil),        // 11: goflux.v1.GetBudgetVsActualRequest
+	(*GetBudgetVsActualResponse)(nil),       // 12: goflux.v1.GetBudgetVsActualResponse
+	(*BudgetVsActualItem)(nil),              // 13: goflux.v1.BudgetVsActualItem
+}
 var file_goflux_v1_analyticsService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: goflux.v1.GetSpendingByCategoryResponse.categories:type_name -> goflux.v1.CategorySpend
+	1,  // 1: goflux.v1.GetMonthlySpendingTrendResponse.months:type_name -> goflux.v1.MonthlySpend
+	2,  // 2: goflux.v1.GetTopMerchantsResponse.merchants:type_name -> goflux.v1.MerchantSpend
+	13, // 3: goflux.v1.GetBudgetVsActualResponse.items:type_name -> goflux.v1.BudgetVsActualItem
+	3,  // 4: goflux.v1.AnalyticsService.GetSpendingByCategory:input_type -> goflux.v1.GetSpendingByCategoryRequest
+	5,  // 5: goflux.v1.AnalyticsService.GetMonthlySpendingTrend:input_type -> goflux.v1.GetMonthlySpendingTrendRequest
+	7,  // 6: goflux.v1.AnalyticsService.GetTopMerchants:input_type -> goflux.v1.GetTopMerchantsRequest
+	9,  // 7: goflux.v1.AnalyticsService.GetCashflowSummary:input_type -> goflux.v1.GetCashflowSummaryRequest
+	11, // 8: goflux.v1.AnalyticsService.GetBudgetVsActual:input_type -> goflux.v1.GetBudgetVsActualRequest
+	4,  // 9: goflux.v1.AnalyticsService.GetSpendingByCategory:output_type -> goflux.v1.GetSpendingByCategoryResponse
+	6,  // 10: goflux.v1.AnalyticsService.GetMonthlySpendingTrend:output_type -> goflux.v1.GetMonthlySpendingTrendResponse
+	8,  // 11: goflux.v1.AnalyticsService.GetTopMerchants:output_type -> goflux.v1.GetTopMerchantsResponse
+	10, // 12: goflux.v1.AnalyticsService.GetCashflowSummary:output_type -> goflux.v1.GetCashflowSummaryResponse
+	12, // 13: goflux.v1.AnalyticsService.GetBudgetVsActual:output_type -> goflux.v1.GetBudgetVsActualResponse
+	9,  // [9:14] is the sub-list for method output_type
+	4,  // [4:9] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_analyticsService_proto_init() }
@@ -40,18 +1012,21 @@ func file_goflux_v1_analyticsService_proto_init() {
 	if File_goflux_v1_analyticsService_proto != nil {
 		return
 	}
+	file_goflux_v1_analyticsService_proto_msgTypes[3].OneofWrappers = []any{}
+	file_goflux_v1_analyticsService_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_analyticsService_proto_rawDesc), len(file_goflux_v1_analyticsService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   14,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_analyticsService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_analyticsService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_analyticsService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_analyticsService_proto = out.File
 	file_goflux_v1_analyticsService_proto_goTypes = nil

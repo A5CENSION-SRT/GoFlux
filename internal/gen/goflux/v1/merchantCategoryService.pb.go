@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,826 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type MerchantCategory struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ParentId      string                 `protobuf:"bytes,3,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Icon          string                 `protobuf:"bytes,4,opt,name=icon,proto3" json:"icon,omitempty"`
+	Color         string                 `protobuf:"bytes,5,opt,name=color,proto3" json:"color,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MerchantCategory) Reset() {
+	*x = MerchantCategory{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MerchantCategory) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MerchantCategory) ProtoMessage() {}
+
+func (x *MerchantCategory) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MerchantCategory.ProtoReflect.Descriptor instead.
+func (*MerchantCategory) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *MerchantCategory) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *MerchantCategory) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *MerchantCategory) GetParentId() string {
+	if x != nil {
+		return x.ParentId
+	}
+	return ""
+}
+
+func (x *MerchantCategory) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *MerchantCategory) GetColor() string {
+	if x != nil {
+		return x.Color
+	}
+	return ""
+}
+
+func (x *MerchantCategory) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type GetCategoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCategoryRequest) Reset() {
+	*x = GetCategoryRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategoryRequest) ProtoMessage() {}
+
+func (x *GetCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategoryRequest.ProtoReflect.Descriptor instead.
+func (*GetCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetCategoryRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+type GetCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Category      *MerchantCategory      `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCategoryResponse) Reset() {
+	*x = GetCategoryResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategoryResponse) ProtoMessage() {}
+
+func (x *GetCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategoryResponse.ProtoReflect.Descriptor instead.
+func (*GetCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetCategoryResponse) GetCategory() *MerchantCategory {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
+type ListCategoriesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCategoriesRequest) Reset() {
+	*x = ListCategoriesRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCategoriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCategoriesRequest) ProtoMessage() {}
+
+func (x *ListCategoriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCategoriesRequest.ProtoReflect.Descriptor instead.
+func (*ListCategoriesRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListCategoriesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCategoriesRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListCategoriesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Categories    []*MerchantCategory    `protobuf:"bytes,1,rep,name=categories,proto3" json:"categories,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCategoriesResponse) Reset() {
+	*x = ListCategoriesResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCategoriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCategoriesResponse) ProtoMessage() {}
+
+func (x *ListCategoriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCategoriesResponse.ProtoReflect.Descriptor instead.
+func (*ListCategoriesResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListCategoriesResponse) GetCategories() []*MerchantCategory {
+	if x != nil {
+		return x.Categories
+	}
+	return nil
+}
+
+func (x *ListCategoriesResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListCategoriesResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCategoriesResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type GetSubCategoriesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSubCategoriesRequest) Reset() {
+	*x = GetSubCategoriesRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSubCategoriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubCategoriesRequest) ProtoMessage() {}
+
+func (x *GetSubCategoriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubCategoriesRequest.ProtoReflect.Descriptor instead.
+func (*GetSubCategoriesRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetSubCategoriesRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+type GetSubCategoriesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Subcategories []*MerchantCategory    `protobuf:"bytes,1,rep,name=subcategories,proto3" json:"subcategories,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSubCategoriesResponse) Reset() {
+	*x = GetSubCategoriesResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSubCategoriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubCategoriesResponse) ProtoMessage() {}
+
+func (x *GetSubCategoriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubCategoriesResponse.ProtoReflect.Descriptor instead.
+func (*GetSubCategoriesResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetSubCategoriesResponse) GetSubcategories() []*MerchantCategory {
+	if x != nil {
+		return x.Subcategories
+	}
+	return nil
+}
+
+type CreateCategoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	ParentId      *string                `protobuf:"bytes,2,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Icon          *string                `protobuf:"bytes,3,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
+	Color         *string                `protobuf:"bytes,4,opt,name=color,proto3,oneof" json:"color,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCategoryRequest) Reset() {
+	*x = CreateCategoryRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCategoryRequest) ProtoMessage() {}
+
+func (x *CreateCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCategoryRequest.ProtoReflect.Descriptor instead.
+func (*CreateCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateCategoryRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateCategoryRequest) GetParentId() string {
+	if x != nil && x.ParentId != nil {
+		return *x.ParentId
+	}
+	return ""
+}
+
+func (x *CreateCategoryRequest) GetIcon() string {
+	if x != nil && x.Icon != nil {
+		return *x.Icon
+	}
+	return ""
+}
+
+func (x *CreateCategoryRequest) GetColor() string {
+	if x != nil && x.Color != nil {
+		return *x.Color
+	}
+	return ""
+}
+
+type CreateCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Category      *MerchantCategory      `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCategoryResponse) Reset() {
+	*x = CreateCategoryResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCategoryResponse) ProtoMessage() {}
+
+func (x *CreateCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCategoryResponse.ProtoReflect.Descriptor instead.
+func (*CreateCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateCategoryResponse) GetCategory() *MerchantCategory {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
+type UpdateCategoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Icon          *string                `protobuf:"bytes,3,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
+	Color         *string                `protobuf:"bytes,4,opt,name=color,proto3,oneof" json:"color,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCategoryRequest) Reset() {
+	*x = UpdateCategoryRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCategoryRequest) ProtoMessage() {}
+
+func (x *UpdateCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCategoryRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateCategoryRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *UpdateCategoryRequest) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *UpdateCategoryRequest) GetIcon() string {
+	if x != nil && x.Icon != nil {
+		return *x.Icon
+	}
+	return ""
+}
+
+func (x *UpdateCategoryRequest) GetColor() string {
+	if x != nil && x.Color != nil {
+		return *x.Color
+	}
+	return ""
+}
+
+type UpdateCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Category      *MerchantCategory      `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCategoryResponse) Reset() {
+	*x = UpdateCategoryResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCategoryResponse) ProtoMessage() {}
+
+func (x *UpdateCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCategoryResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateCategoryResponse) GetCategory() *MerchantCategory {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
+type DeleteCategoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteCategoryRequest) Reset() {
+	*x = DeleteCategoryRequest{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCategoryRequest) ProtoMessage() {}
+
+func (x *DeleteCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCategoryRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteCategoryRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+type DeleteCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteCategoryResponse) Reset() {
+	*x = DeleteCategoryResponse{}
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCategoryResponse) ProtoMessage() {}
+
+func (x *DeleteCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_goflux_v1_merchantCategoryService_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCategoryResponse.ProtoReflect.Descriptor instead.
+func (*DeleteCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_goflux_v1_merchantCategoryService_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteCategoryResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *DeleteCategoryResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_goflux_v1_merchantCategoryService_proto protoreflect.FileDescriptor
 
 const file_goflux_v1_merchantCategoryService_proto_rawDesc = "" +
 	"\n" +
-	"'goflux/v1/merchantCategoryService.proto\x12\tgoflux.v1BAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
+	"'goflux/v1/merchantCategoryService.proto\x12\tgoflux.v1\"\x9c\x01\n" +
+	"\x10MerchantCategory\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
+	"\tparent_id\x18\x03 \x01(\tR\bparentId\x12\x12\n" +
+	"\x04icon\x18\x04 \x01(\tR\x04icon\x12\x14\n" +
+	"\x05color\x18\x05 \x01(\tR\x05color\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\"5\n" +
+	"\x12GetCategoryRequest\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\"N\n" +
+	"\x13GetCategoryResponse\x127\n" +
+	"\bcategory\x18\x01 \x01(\v2\x1b.goflux.v1.MerchantCategoryR\bcategory\"H\n" +
+	"\x15ListCategoriesRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\"\x9c\x01\n" +
+	"\x16ListCategoriesResponse\x12;\n" +
+	"\n" +
+	"categories\x18\x01 \x03(\v2\x1b.goflux.v1.MerchantCategoryR\n" +
+	"categories\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\":\n" +
+	"\x17GetSubCategoriesRequest\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\"]\n" +
+	"\x18GetSubCategoriesResponse\x12A\n" +
+	"\rsubcategories\x18\x01 \x03(\v2\x1b.goflux.v1.MerchantCategoryR\rsubcategories\"\xa2\x01\n" +
+	"\x15CreateCategoryRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\tparent_id\x18\x02 \x01(\tH\x00R\bparentId\x88\x01\x01\x12\x17\n" +
+	"\x04icon\x18\x03 \x01(\tH\x01R\x04icon\x88\x01\x01\x12\x19\n" +
+	"\x05color\x18\x04 \x01(\tH\x02R\x05color\x88\x01\x01B\f\n" +
+	"\n" +
+	"_parent_idB\a\n" +
+	"\x05_iconB\b\n" +
+	"\x06_color\"Q\n" +
+	"\x16CreateCategoryResponse\x127\n" +
+	"\bcategory\x18\x01 \x01(\v2\x1b.goflux.v1.MerchantCategoryR\bcategory\"\xa1\x01\n" +
+	"\x15UpdateCategoryRequest\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x17\n" +
+	"\x04icon\x18\x03 \x01(\tH\x01R\x04icon\x88\x01\x01\x12\x19\n" +
+	"\x05color\x18\x04 \x01(\tH\x02R\x05color\x88\x01\x01B\a\n" +
+	"\x05_nameB\a\n" +
+	"\x05_iconB\b\n" +
+	"\x06_color\"Q\n" +
+	"\x16UpdateCategoryResponse\x127\n" +
+	"\bcategory\x18\x01 \x01(\v2\x1b.goflux.v1.MerchantCategoryR\bcategory\"8\n" +
+	"\x15DeleteCategoryRequest\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\"L\n" +
+	"\x16DeleteCategoryResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xa0\x04\n" +
+	"\x17MerchantCategoryService\x12L\n" +
+	"\vGetCategory\x12\x1d.goflux.v1.GetCategoryRequest\x1a\x1e.goflux.v1.GetCategoryResponse\x12U\n" +
+	"\x0eListCategories\x12 .goflux.v1.ListCategoriesRequest\x1a!.goflux.v1.ListCategoriesResponse\x12[\n" +
+	"\x10GetSubCategories\x12\".goflux.v1.GetSubCategoriesRequest\x1a#.goflux.v1.GetSubCategoriesResponse\x12U\n" +
+	"\x0eCreateCategory\x12 .goflux.v1.CreateCategoryRequest\x1a!.goflux.v1.CreateCategoryResponse\x12U\n" +
+	"\x0eUpdateCategory\x12 .goflux.v1.UpdateCategoryRequest\x1a!.goflux.v1.UpdateCategoryResponse\x12U\n" +
+	"\x0eDeleteCategory\x12 .goflux.v1.DeleteCategoryRequest\x1a!.goflux.v1.DeleteCategoryResponseBAZ?github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1b\x06proto3"
 
-var file_goflux_v1_merchantCategoryService_proto_goTypes = []any{}
+var (
+	file_goflux_v1_merchantCategoryService_proto_rawDescOnce sync.Once
+	file_goflux_v1_merchantCategoryService_proto_rawDescData []byte
+)
+
+func file_goflux_v1_merchantCategoryService_proto_rawDescGZIP() []byte {
+	file_goflux_v1_merchantCategoryService_proto_rawDescOnce.Do(func() {
+		file_goflux_v1_merchantCategoryService_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_goflux_v1_merchantCategoryService_proto_rawDesc), len(file_goflux_v1_merchantCategoryService_proto_rawDesc)))
+	})
+	return file_goflux_v1_merchantCategoryService_proto_rawDescData
+}
+
+var file_goflux_v1_merchantCategoryService_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_goflux_v1_merchantCategoryService_proto_goTypes = []any{
+	(*MerchantCategory)(nil),         // 0: goflux.v1.MerchantCategory
+	(*GetCategoryRequest)(nil),       // 1: goflux.v1.GetCategoryRequest
+	(*GetCategoryResponse)(nil),      // 2: goflux.v1.GetCategoryResponse
+	(*ListCategoriesRequest)(nil),    // 3: goflux.v1.ListCategoriesRequest
+	(*ListCategoriesResponse)(nil),   // 4: goflux.v1.ListCategoriesResponse
+	(*GetSubCategoriesRequest)(nil),  // 5: goflux.v1.GetSubCategoriesRequest
+	(*GetSubCategoriesResponse)(nil), // 6: goflux.v1.GetSubCategoriesResponse
+	(*CreateCategoryRequest)(nil),    // 7: goflux.v1.CreateCategoryRequest
+	(*CreateCategoryResponse)(nil),   // 8: goflux.v1.CreateCategoryResponse
+	(*UpdateCategoryRequest)(nil),    // 9: goflux.v1.UpdateCategoryRequest
+	(*UpdateCategoryResponse)(nil),   // 10: goflux.v1.UpdateCategoryResponse
+	(*DeleteCategoryRequest)(nil),    // 11: goflux.v1.DeleteCategoryRequest
+	(*DeleteCategoryResponse)(nil),   // 12: goflux.v1.DeleteCategoryResponse
+}
 var file_goflux_v1_merchantCategoryService_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: goflux.v1.GetCategoryResponse.category:type_name -> goflux.v1.MerchantCategory
+	0,  // 1: goflux.v1.ListCategoriesResponse.categories:type_name -> goflux.v1.MerchantCategory
+	0,  // 2: goflux.v1.GetSubCategoriesResponse.subcategories:type_name -> goflux.v1.MerchantCategory
+	0,  // 3: goflux.v1.CreateCategoryResponse.category:type_name -> goflux.v1.MerchantCategory
+	0,  // 4: goflux.v1.UpdateCategoryResponse.category:type_name -> goflux.v1.MerchantCategory
+	1,  // 5: goflux.v1.MerchantCategoryService.GetCategory:input_type -> goflux.v1.GetCategoryRequest
+	3,  // 6: goflux.v1.MerchantCategoryService.ListCategories:input_type -> goflux.v1.ListCategoriesRequest
+	5,  // 7: goflux.v1.MerchantCategoryService.GetSubCategories:input_type -> goflux.v1.GetSubCategoriesRequest
+	7,  // 8: goflux.v1.MerchantCategoryService.CreateCategory:input_type -> goflux.v1.CreateCategoryRequest
+	9,  // 9: goflux.v1.MerchantCategoryService.UpdateCategory:input_type -> goflux.v1.UpdateCategoryRequest
+	11, // 10: goflux.v1.MerchantCategoryService.DeleteCategory:input_type -> goflux.v1.DeleteCategoryRequest
+	2,  // 11: goflux.v1.MerchantCategoryService.GetCategory:output_type -> goflux.v1.GetCategoryResponse
+	4,  // 12: goflux.v1.MerchantCategoryService.ListCategories:output_type -> goflux.v1.ListCategoriesResponse
+	6,  // 13: goflux.v1.MerchantCategoryService.GetSubCategories:output_type -> goflux.v1.GetSubCategoriesResponse
+	8,  // 14: goflux.v1.MerchantCategoryService.CreateCategory:output_type -> goflux.v1.CreateCategoryResponse
+	10, // 15: goflux.v1.MerchantCategoryService.UpdateCategory:output_type -> goflux.v1.UpdateCategoryResponse
+	12, // 16: goflux.v1.MerchantCategoryService.DeleteCategory:output_type -> goflux.v1.DeleteCategoryResponse
+	11, // [11:17] is the sub-list for method output_type
+	5,  // [5:11] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_goflux_v1_merchantCategoryService_proto_init() }
@@ -40,18 +848,21 @@ func file_goflux_v1_merchantCategoryService_proto_init() {
 	if File_goflux_v1_merchantCategoryService_proto != nil {
 		return
 	}
+	file_goflux_v1_merchantCategoryService_proto_msgTypes[7].OneofWrappers = []any{}
+	file_goflux_v1_merchantCategoryService_proto_msgTypes[9].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_goflux_v1_merchantCategoryService_proto_rawDesc), len(file_goflux_v1_merchantCategoryService_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_goflux_v1_merchantCategoryService_proto_goTypes,
 		DependencyIndexes: file_goflux_v1_merchantCategoryService_proto_depIdxs,
+		MessageInfos:      file_goflux_v1_merchantCategoryService_proto_msgTypes,
 	}.Build()
 	File_goflux_v1_merchantCategoryService_proto = out.File
 	file_goflux_v1_merchantCategoryService_proto_goTypes = nil

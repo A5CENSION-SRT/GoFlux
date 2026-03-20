@@ -1,4 +1,4 @@
-module cmd
+module github.com/A5CENSION-SRT/goflux
 
 go 1.24.2
 

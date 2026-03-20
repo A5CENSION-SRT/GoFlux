@@ -1,3 +1,86 @@
 syntax = "proto3";
 package goflux.v1;
+option go_package = "github.com/A5CENSION-SRT/goflux/internal/gen/goflux/v1;gofluxv1";
 
+message Customer {
+    string id           = 1;
+    string full_name    = 2;
+    string email        = 3;
+    string phone        = 4;
+    string country_code = 5;
+    string kyc_status   = 6;
+    string created_at   = 7;
+    string updated_at   = 8;
+}
+
+message CreateCustomerRequest {
+    string full_name    = 1;
+    string email        = 2;
+    string phone        = 3;
+    string country_code = 4;
+}
+
+message CreateCustomerResponse {
+    Customer customer = 1;
+}
+
+message GetCustomerRequest {
+    string customer_id = 1;
+}
+
+message GetCustomerResponse {
+    Customer customer = 1;
+}
+
+message UpdateCustomerRequest {
+    string customer_id  = 1;
+    string full_name    = 2;
+    string email        = 3;
+    string phone        = 4;
+}
+
+message UpdateCustomerResponse {
+    Customer customer = 1;
+}
+
+message UpdateKYCStatusRequest {
+    string customer_id = 1;
+    string kyc_status  = 2;
+}
+
+message UpdateKYCStatusResponse {
+    Customer customer = 1;
+}
+
+message DeleteCustomerRequest {
+    string customer_id = 1;
+    string reason      = 2;
+}
+
+message DeleteCustomerResponse {
+    bool   success = 1;
+    string message = 2;
+}
+
+message ListCustomersRequest {
+    optional string kyc_status   = 1;
+    optional string country_code = 2;
+    int32           page         = 3;
+    int32           page_size    = 4;
+}
+
+message ListCustomersResponse {
+    repeated Customer customers = 1;
+    int32             total     = 2;
+    int32             page      = 3;
+    int32             page_size = 4;
+}
+
+service CustomerService {
+    rpc CreateCustomer  (CreateCustomerRequest)  returns (CreateCustomerResponse);
+    rpc GetCustomer     (GetCustomerRequest)     returns (GetCustomerResponse);
+    rpc UpdateCustomer  (UpdateCustomerRequest)  returns (UpdateCustomerResponse);
+    rpc UpdateKYCStatus (UpdateKYCStatusRequest) returns (UpdateKYCStatusResponse);
+    rpc DeleteCustomer  (DeleteCustomerRequest)  returns (DeleteCustomerResponse);
+    rpc ListCustomers   (ListCustomersRequest)   returns (ListCustomersResponse);
+}
